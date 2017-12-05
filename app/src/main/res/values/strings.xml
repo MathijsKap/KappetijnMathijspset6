@@ -3,4 +3,21 @@
     <string name="login">Login</string>
     <string name="new_user">New user</string>
     <string name="top_users">Top users</string>
+    <string name="next">Next!</string>
+    <string name="category">Category</string>
+    <string name="amount">Amount</string>
+    <string name="difficulty">Difficulty</string>
+    <string-array name="category_spinner">
+        <item>General Knowledge</item>
+        <item>Film</item>
+        <item>Music</item>
+        <item>Video Games</item>
+        <item>Sports</item>
+        <item>Animals</item>
+    </string-array>
+    <string-array name="difficulty_spinner">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+    </string-array>
 </resources>
