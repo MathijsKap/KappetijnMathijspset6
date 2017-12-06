@@ -7,6 +7,10 @@
     <string name="category">Category</string>
     <string name="amount">Amount</string>
     <string name="difficulty">Difficulty</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
     <string-array name="category_spinner">
         <item>General Knowledge</item>
         <item>Film</item>

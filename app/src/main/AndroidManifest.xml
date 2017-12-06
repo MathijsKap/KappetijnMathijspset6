@@ -23,10 +23,11 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".logon" />
-        <activity android:name=".Select" />
+        <activity android:name=".Logon" />
         <activity android:name=".SelectTrivia" />
         <activity android:name=".Questions" />
+        <activity android:name=".Register" />
+        <activity android:name=".Login"></activity>
     </application>
 
 </manifest>

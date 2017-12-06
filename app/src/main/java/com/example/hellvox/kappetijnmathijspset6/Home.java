@@ -31,7 +31,7 @@ public class Home extends AppCompatActivity {
     private class newUserListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(Home.this, SelectTrivia.class);
+            Intent intent = new Intent(Home.this, Register.class);
             startActivity(intent);
         }
     }
@@ -39,7 +39,8 @@ public class Home extends AppCompatActivity {
     private class loginListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            Intent intent = new Intent(Home.this, Login.class);
+            startActivity(intent);
         }
     }
 }
