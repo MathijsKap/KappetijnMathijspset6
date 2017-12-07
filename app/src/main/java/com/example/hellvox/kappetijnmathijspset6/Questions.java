@@ -1,6 +1,7 @@
 package com.example.hellvox.kappetijnmathijspset6;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,7 +16,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -59,7 +59,7 @@ public class Questions extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         //Snackbar.make(this.findViewById(android.R.id.content), "Logout Successful", Snackbar.LENGTH_LONG).show();
         Toast.makeText(this, "Logout succesful",Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, Home.class);
+        Intent intent = new Intent(this, reglog.class);
         startActivity(intent);
         finish();
     }
@@ -89,8 +89,9 @@ public class Questions extends AppCompatActivity {
                 Logout();
                 return true;
             case R.id.Login:
-                Intent intent = new Intent(this, Login.class);
-                startActivity(intent);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                login_dialog fragment = new login_dialog();
+                fragment.show(ft, "dialog");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

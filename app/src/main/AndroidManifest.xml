@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Home">
+        <activity android:name=".Logon">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,11 +23,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".Logon" />
+        <activity android:name=".reglog" />
         <activity android:name=".SelectTrivia" />
         <activity android:name=".Questions" />
-        <activity android:name=".Register" />
-        <activity android:name=".Login"></activity>
     </application>
 
 </manifest>

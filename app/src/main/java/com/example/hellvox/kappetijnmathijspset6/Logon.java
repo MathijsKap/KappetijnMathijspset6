@@ -1,22 +1,32 @@
 package com.example.hellvox.kappetijnmathijspset6;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class Logon extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+
+    Button startTrivia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,17 +34,48 @@ public class Logon extends AppCompatActivity {
         setContentView(R.layout.activity_logon);
 
         mAuth = FirebaseAuth.getInstance();
-        Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        TextView tv = findViewById(R.id.textView5);
+        startTrivia = findViewById(R.id.Start);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-
+            String userId = user.getUid();
+            readNameFromDB(userId);
         }
+
+        startTrivia.setOnClickListener(new startListener());
+
+
 
     }
 
+    public void readNameFromDB(final String id) {
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User aUser = dataSnapshot.child("users").child(id).getValue(User.class);
+
+                TextView tv = findViewById(R.id.Logon_begin);
+                tv.setText(getString(R.string.hello_message)+aUser.username + getString(R.string.Ex));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        mDatabase.addValueEventListener(postListener);
+    }
+
+
+    private class startListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(Logon.this, SelectTrivia.class);
+            startActivity(intent);
+        }
+    }
 
     public void addToDB(View view) {
 
@@ -46,7 +87,7 @@ public class Logon extends AppCompatActivity {
 
     private void goToHome() {
         Toast.makeText(getApplicationContext(), "Not logged in", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(Logon.this, Home.class));
+        startActivity(new Intent(Logon.this, reglog.class));
     }
 
     public void onStart() {
@@ -55,6 +96,10 @@ public class Logon extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
 
+        } else {
+            Intent intent = new Intent(this, reglog.class);
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -62,7 +107,7 @@ public class Logon extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         //Snackbar.make(this.findViewById(android.R.id.content), "Logout Successful", Snackbar.LENGTH_LONG).show();
         Toast.makeText(this, "Logout succesful",Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, Home.class);
+        Intent intent = new Intent(this, reglog.class);
         startActivity(intent);
         finish();
     }
@@ -92,8 +137,9 @@ public class Logon extends AppCompatActivity {
                 Logout();
                 return true;
             case R.id.Login:
-                Intent intent = new Intent(this, Login.class);
-                startActivity(intent);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                login_dialog fragment = new login_dialog();
+                fragment.show(ft, "dialog");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

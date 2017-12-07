@@ -1,6 +1,7 @@
 package com.example.hellvox.kappetijnmathijspset6;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -129,7 +130,7 @@ public class SelectTrivia extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         //Snackbar.make(this.findViewById(android.R.id.content), "Logout Successful", Snackbar.LENGTH_LONG).show();
         Toast.makeText(this, "Logout succesful",Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, Home.class);
+        Intent intent = new Intent(this, reglog.class);
         startActivity(intent);
         finish();
     }
@@ -159,8 +160,9 @@ public class SelectTrivia extends AppCompatActivity {
                 Logout();
                 return true;
             case R.id.Login:
-                Intent intent = new Intent(this, Login.class);
-                startActivity(intent);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                login_dialog fragment = new login_dialog();
+                fragment.show(ft, "dialog");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
