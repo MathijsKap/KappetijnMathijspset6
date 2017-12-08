@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ public class Questions extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     TextView textView;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +39,15 @@ public class Questions extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         textView = findViewById(R.id.textView);
+        progressBar = findViewById(R.id.progressBar4);
         final String url = "https://opentdb.com/api.php?amount="+amount+"&category="+category+"&difficulty="+difficulty+"&type=multiple";
+        progressBar.setVisibility(View.VISIBLE);
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         JSONArray array = response.optJSONArray("results");
+                        progressBar.setVisibility(View.INVISIBLE);
                         textView.setText(url + array.toString());
                     }
                 }, new Response.ErrorListener() {

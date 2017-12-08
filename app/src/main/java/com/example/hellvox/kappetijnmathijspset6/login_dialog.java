@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +32,7 @@ public class login_dialog extends DialogFragment {
     EditText username;
     EditText pass;
     Button login;
+    ProgressBar progressBar;
     View view;
 
     @Override
@@ -41,6 +43,7 @@ public class login_dialog extends DialogFragment {
         username = view.findViewById(R.id.Username2);
         pass = view.findViewById(R.id.Password2);
         login = view.findViewById(R.id.Login);
+        progressBar = view.findViewById(R.id.progressBar3);
         mAuth = FirebaseAuth.getInstance();
         return view;
     }
@@ -60,6 +63,7 @@ public class login_dialog extends DialogFragment {
             if (password.length() < 6) {
                 Toast.makeText(getContext(), "Password to short!", Toast.LENGTH_SHORT).show();
             } else {
+                progressBar.setVisibility(View.VISIBLE);
                 login(email, password);
             }
         }
@@ -74,6 +78,7 @@ public class login_dialog extends DialogFragment {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("sign", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            progressBar.setVisibility(View.INVISIBLE);
                             //Toast.makeText(getContext(), "Succes!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getActivity(), Logon.class);
                             startActivityForResult(intent, 0);

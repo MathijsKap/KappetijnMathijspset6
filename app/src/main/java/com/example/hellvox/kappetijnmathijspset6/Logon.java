@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class Logon extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    ProgressBar progressBar;
 
     Button startTrivia;
 
@@ -37,9 +39,11 @@ public class Logon extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         startTrivia = findViewById(R.id.Start);
+        progressBar = findViewById(R.id.progressBar2);
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
+            progressBar.setVisibility(View.VISIBLE);
             String userId = user.getUid();
             readNameFromDB(userId);
         }
@@ -54,10 +58,12 @@ public class Logon extends AppCompatActivity {
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 User aUser = dataSnapshot.child("users").child(id).getValue(User.class);
 
                 TextView tv = findViewById(R.id.Logon_begin);
                 tv.setText(getString(R.string.hello_message)+aUser.username + getString(R.string.Ex));
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
