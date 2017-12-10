@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,23 +23,32 @@ import com.google.firebase.auth.FirebaseUser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class Questions extends AppCompatActivity {
 
+    JSONObject ObjectArray;
     private FirebaseAuth mAuth;
     TextView textView;
     ProgressBar progressBar;
+    ArrayList<Trivia> Questions = new ArrayList<>();
+    TriviaListAdapater adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
         Intent intent = getIntent();
-        int amount = intent.getIntExtra("amount", 10);
+        int amount = intent.getIntExtra("amount", 5);
         int category = intent.getIntExtra("category", 0);
         String difficulty = intent.getStringExtra("difficulty");
         mAuth = FirebaseAuth.getInstance();
 
-        textView = findViewById(R.id.textView);
+        ListView list = findViewById(R.id.question_answers);
+        adapter = new TriviaListAdapater(this, R.layout.row_todo, Questions);
+        list.setAdapter(adapter);
+
+        textView = findViewById(R.id.question_Question);
         progressBar = findViewById(R.id.progressBar4);
         final String url = "https://opentdb.com/api.php?amount="+amount+"&category="+category+"&difficulty="+difficulty+"&type=multiple";
         progressBar.setVisibility(View.VISIBLE);
@@ -47,8 +57,13 @@ public class Questions extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         JSONArray array = response.optJSONArray("results");
+                        for(int i=0; i<array.length(); i++) {
+                            ObjectArray = array.optJSONObject(i);
+                            Questions.add(new Trivia(ObjectArray.optString("question"), ObjectArray.optString("correct_answer"), ObjectArray.optJSONArray("incorrect_answers")));
+                        }
                         progressBar.setVisibility(View.INVISIBLE);
-                        textView.setText(url + array.toString());
+                        textView.setText(Questions.get(0).getQuestion());
+                        adapter.notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
 

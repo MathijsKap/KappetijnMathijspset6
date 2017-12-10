@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="100"
+    android:descendantFocusability="blocksDescendants">
+
+
+    <CheckBox
+        android:id="@+id/check"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/row_Answer"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_margin="8dp"
+        android:layout_weight="99"
+        android:fontFamily="@font/roboto"
+        android:text="Test"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
+
+</LinearLayout>
