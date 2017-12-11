@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class Complete extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     int score;
+    int amount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +34,19 @@ public class Complete extends AppCompatActivity {
         setContentView(R.layout.activity_complete);
         Intent intent = getIntent();
         score = intent.getIntExtra("score", 0);
+        amount = intent.getIntExtra("amount", 0);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        TextView scoreText = findViewById(R.id.Complete_correct);
         Button backbutton = findViewById(R.id.Complete_back);
+
+        float temp = (float)score/amount;
+        scoreText.setText("Your score this game: "+score + "/" + amount + temp);
+
+
+        setImage(temp);
 
         FirebaseUser user = mAuth.getCurrentUser();
         String userId = user.getUid();
@@ -45,6 +55,23 @@ public class Complete extends AppCompatActivity {
         backbutton.setOnClickListener(new backListener());
 
     }
+
+    private void setImage(double temp) {
+        ImageView image = findViewById(R.id.imageView2);
+        if (temp == 1) {
+            image.setImageResource(R.drawable.perfect);
+        }
+        if (temp >= 0.7 && temp < 1 ) {
+            image.setImageResource(R.drawable.welldone);
+        }
+        if (temp > 0.4 && temp < 0.7 ) {
+            image.setImageResource(R.drawable.notbad);
+        }
+        if (temp <= 0.4 ) {
+            image.setImageResource(R.drawable.badscore);
+        }
+    }
+
     private void updateScore(String userId) {
         mDatabase.child("users").child(userId).child("karma").setValue(score);
     }
@@ -54,10 +81,10 @@ public class Complete extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                TextView textView = findViewById(R.id.textView);
                 User aUser = dataSnapshot.child("users").child(id).getValue(User.class);
                 score = score + aUser.karma;
-                textView.setText(""+score);
+                TextView totalKarma = findViewById(R.id.Complete_karma);
+                totalKarma.setText("Total Karma:" + score);
                 updateScore(id);
             }
 

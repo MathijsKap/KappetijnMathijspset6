@@ -84,6 +84,7 @@ public class Questions extends AppCompatActivity {
             } else {
                 Intent intentNext = new Intent(Questions.this, Complete.class);
                 intentNext.putExtra("score", score);
+                intentNext.putExtra("amount", amount);
                 startActivity(intentNext);
                 finish();
             }
