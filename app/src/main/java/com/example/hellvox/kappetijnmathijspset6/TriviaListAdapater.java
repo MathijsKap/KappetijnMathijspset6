@@ -9,17 +9,16 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 
-public class TriviaListAdapater extends ArrayAdapter<Trivia> {
+public class TriviaListAdapater extends ArrayAdapter<String> {
 
     // Initialize variables
     private Context mContext;
     int mResource;
 
-    public TriviaListAdapater(Context context, int resource, ArrayList<Trivia> objects) {
+    public TriviaListAdapater(Context context, int resource, ArrayList<String> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -29,20 +28,30 @@ public class TriviaListAdapater extends ArrayAdapter<Trivia> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        String Question = getItem(position).getQuestion();
-        String correct_answer = getItem(position).getcorrect_answer();
-        String Incorrect = getItem(position).getIncorrect();
-
-        Trivia trivia = new Trivia(Question,correct_answer, Incorrect);
-
+        String answer = getItem(position);
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
         TextView answers = convertView.findViewById(R.id.row_Answer);
-        CheckBox box = convertView.findViewById(R.id.check);
+        TextView number = convertView.findViewById(R.id.row_Number);
 
-        answers.setText(correct_answer);
-
+        answers.setText(answer);
+        number.setText(toAlphabetic(position));
         return convertView;
+    }
+
+    private String toAlphabetic(int i) {
+        if( i<0 ) {
+            return "-"+toAlphabetic(-i-1);
+        }
+
+        int quot = i/26;
+        int rem = i%26;
+        char letter = (char)((int)'A' + rem);
+        if( quot == 0 ) {
+            return ""+letter;
+        } else {
+            return toAlphabetic(quot-1) + letter;
+        }
     }
 }

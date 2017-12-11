@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
@@ -27,9 +28,9 @@ public class reglog extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-
     Button register;
     Button login;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class reglog extends AppCompatActivity {
 
         login = (Button) findViewById(R.id.Login);
         register = (Button) findViewById(R.id.Register);
-
+        progressBar = findViewById(R.id.progressBar5);
         register.setOnClickListener(new registerListener());
         login.setOnClickListener(new loginListener());
 
@@ -52,6 +53,7 @@ public class reglog extends AppCompatActivity {
     private class registerListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            progressBar.setVisibility(View.VISIBLE);
             EditText username = findViewById(R.id.Username);
             EditText pass = findViewById(R.id.Password);
             EditText name = findViewById(R.id.Name);
@@ -104,9 +106,6 @@ public class reglog extends AppCompatActivity {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             login_dialog fragment = new login_dialog();
             fragment.show(ft, "dialog");
-            //Intent intent = new Intent(reglog.this, Login.class);
-            //startActivity(intent);
-            //finish();
         }
     }
 

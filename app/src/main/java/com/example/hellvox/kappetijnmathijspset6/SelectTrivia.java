@@ -81,7 +81,7 @@ public class SelectTrivia extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             String value = editTextAmount.getText().toString();
-            int amount;
+            final int amount;
             if (!value.equals("")) {
                 amount = Integer.parseInt(value);
             } else amount = 5;
@@ -103,6 +103,7 @@ public class SelectTrivia extends AppCompatActivity {
                             Bundle bundle = new Bundle();
                             bundle.putParcelableArrayList("Questions", Questions);
                             intent.putExtras(bundle);
+                            intent.putExtra("max", amount);
                             startActivity(intent);
                             finish();
                         }

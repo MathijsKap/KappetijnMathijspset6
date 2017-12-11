@@ -1,25 +1,91 @@
 package com.example.hellvox.kappetijnmathijspset6;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Questions extends AppCompatActivity {
 
     ArrayList<Trivia> Questions = new ArrayList<>();
+    JSONArray array;
+    ArrayList<String> answers = new ArrayList<>();
+    TriviaListAdapater adapater;
+    int number;
+    int score;
+    int amount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
 
+        Intent intent = getIntent();
 
-        Questions = this.getIntent().getExtras().getParcelableArrayList("Questions");
+
+        Questions = intent.getExtras().getParcelableArrayList("Questions");
+        number = intent.getIntExtra("number", 0);
+        score = intent.getIntExtra("score", 0);
+        amount = intent.getIntExtra("max", 5);
 
         TextView textView = findViewById(R.id.question_Question);
-        textView.setText(Html.fromHtml(Questions.get(0).getQuestion()).toString());
+        ListView answerss = findViewById(R.id.question_answers);
+
+
+        textView.setText(Html.fromHtml(Questions.get(number).getQuestion()).toString());
+        try {
+            array = new JSONArray(Html.fromHtml(Questions.get(number).getIncorrect()).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0;i<array.length();i++) {
+            answers.add(array.optString(i));
+        }
+        answers.add(Html.fromHtml(Questions.get(number).getcorrect_answer()).toString());
+        Collections.shuffle(answers);
+
+        adapater = new TriviaListAdapater(getApplicationContext(),R.layout.row_todo,answers);
+        answerss.setAdapter(adapater);
+
+        answerss.setOnItemClickListener(new GoButtonClickListener());
+    }
+
+
+    private class GoButtonClickListener implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Object object  = parent.getItemAtPosition(position);
+            String Useranswer = object.toString();
+            if (Useranswer.equals(Html.fromHtml(Questions.get(number).getcorrect_answer()).toString())) {
+                score++;
+            }
+            Toast.makeText(getApplicationContext(), "" + score, Toast.LENGTH_SHORT).show();
+            number++;
+            if (number < amount) {
+                Intent intentNext = new Intent(Questions.this, Questions.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("Questions", Questions);
+                intentNext.putExtras(bundle);
+                intentNext.putExtra("number", number);
+                intentNext.putExtra("score", score);
+                startActivity(intentNext);
+                finish();
+            } else {
+                Intent intentNext = new Intent(Questions.this, Logon.class);
+                startActivity(intentNext);
+                finish();
+            }
+        }
     }
 }
