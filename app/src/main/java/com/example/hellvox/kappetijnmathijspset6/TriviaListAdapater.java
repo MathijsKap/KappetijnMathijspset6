@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 
@@ -32,7 +31,7 @@ public class TriviaListAdapater extends ArrayAdapter<String> {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-        TextView answers = convertView.findViewById(R.id.row_Answer);
+        TextView answers = convertView.findViewById(R.id.logon_top);
         TextView number = convertView.findViewById(R.id.row_Number);
 
         answers.setText(answer);

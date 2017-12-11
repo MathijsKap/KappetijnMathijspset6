@@ -85,6 +85,7 @@ public class reglog extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             String userId = user.getUid();
                             mDatabase.child("users").child(userId).child("username").setValue(nickname);
+                            mDatabase.child("users").child(userId).child("karma").setValue(0);
                             Toast.makeText(getApplicationContext(), "Succes!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(reglog.this, Logon.class);
                             startActivity(intent);
@@ -94,6 +95,7 @@ public class reglog extends AppCompatActivity {
                             Log.w("fail", "createUserWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     }
                 });

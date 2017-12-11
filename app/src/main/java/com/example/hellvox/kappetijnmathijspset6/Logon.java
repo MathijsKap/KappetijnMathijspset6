@@ -43,15 +43,18 @@ public class Logon extends AppCompatActivity {
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            progressBar.setVisibility(View.VISIBLE);
             String userId = user.getUid();
             readNameFromDB(userId);
-        }
+            progressBar.setVisibility(View.VISIBLE);
+        } else goToHome();
 
         startTrivia.setOnClickListener(new startListener());
+    }
 
-
-
+    private void userCheck() {
+        if (!userState()) {
+            goToHome();
+        }
     }
 
     public void readNameFromDB(final String id) {
@@ -62,7 +65,9 @@ public class Logon extends AppCompatActivity {
                 User aUser = dataSnapshot.child("users").child(id).getValue(User.class);
 
                 TextView tv = findViewById(R.id.Logon_begin);
+                TextView karma = findViewById(R.id.Logon_karma);
                 tv.setText(getString(R.string.hello_message)+aUser.username + getString(R.string.Ex));
+                karma.setText(getString(R.string.your_karma)+aUser.karma + getString(R.string.Ex));
                 progressBar.setVisibility(View.INVISIBLE);
             }
 
@@ -83,16 +88,7 @@ public class Logon extends AppCompatActivity {
         }
     }
 
-    public void addToDB(View view) {
-
-    }
-
-    private void gotToCategory() {
-        startActivity(new Intent(Logon.this, SelectTrivia.class));
-    }
-
     private void goToHome() {
-        Toast.makeText(getApplicationContext(), "Not logged in", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(Logon.this, reglog.class));
     }
 
@@ -100,12 +96,8 @@ public class Logon extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-
-        } else {
-            Intent intent = new Intent(this, reglog.class);
-            startActivity(intent);
-            finish();
+        if (currentUser == null) {
+            goToHome();
         }
     }
 

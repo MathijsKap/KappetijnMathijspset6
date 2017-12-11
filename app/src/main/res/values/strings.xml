@@ -34,4 +34,5 @@
     <string name="start_game">Start game</string>
     <string name="hello_message">Hey there&#160;</string>
     <string name="Ex">!</string>
+    <string name="your_karma">Your karma:&#160;</string>
 </resources>
