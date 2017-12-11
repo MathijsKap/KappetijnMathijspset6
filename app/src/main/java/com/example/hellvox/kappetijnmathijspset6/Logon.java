@@ -35,6 +35,7 @@ public class Logon extends AppCompatActivity {
     private DatabaseReference mDatabase;
     ProgressBar progressBar;
     ListView topScores;
+    TextView topUs;
     Button startTrivia;
 
     @Override
@@ -48,6 +49,7 @@ public class Logon extends AppCompatActivity {
         startTrivia = findViewById(R.id.Start);
         progressBar = findViewById(R.id.progressBar2);
         topScores = findViewById(R.id.Logon_top);
+        topUs = findViewById(R.id.logon_top);
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
@@ -77,6 +79,7 @@ public class Logon extends AppCompatActivity {
                 TextView karma = findViewById(R.id.Logon_karma);
                 tv.setText(getString(R.string.hello_message)+aUser.username + getString(R.string.Ex));
                 karma.setText(getString(R.string.your_karma)+aUser.karma + getString(R.string.Ex));
+                topUs.setText(getString(R.string.top_users));
                 progressBar.setVisibility(View.INVISIBLE);
             }
 
@@ -139,6 +142,11 @@ public class Logon extends AppCompatActivity {
 
     private void goToHome() {
         startActivity(new Intent(Logon.this, reglog.class));
+    }
+
+    public void onResume() {
+        super.onResume();
+        getTopScores();
     }
 
     public void onStart() {

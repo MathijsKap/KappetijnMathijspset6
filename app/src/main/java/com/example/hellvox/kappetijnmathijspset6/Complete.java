@@ -43,7 +43,7 @@ public class Complete extends AppCompatActivity {
         Button backbutton = findViewById(R.id.Complete_back);
 
         float temp = (float)score/amount;
-        scoreText.setText("Your score this game: "+score + "/" + amount + temp);
+        scoreText.setText("Your score this game: "+score + "/" + amount);
 
 
         setImage(temp);
