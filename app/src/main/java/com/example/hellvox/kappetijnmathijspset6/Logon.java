@@ -8,7 +8,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,13 +23,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Map;
+
 
 public class Logon extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     ProgressBar progressBar;
-
+    ListView topScores;
     Button startTrivia;
 
     @Override
@@ -40,11 +47,13 @@ public class Logon extends AppCompatActivity {
 
         startTrivia = findViewById(R.id.Start);
         progressBar = findViewById(R.id.progressBar2);
+        topScores = findViewById(R.id.Logon_top);
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             String userId = user.getUid();
             readNameFromDB(userId);
+            getTopScores();
             progressBar.setVisibility(View.VISIBLE);
         } else goToHome();
 
@@ -77,6 +86,46 @@ public class Logon extends AppCompatActivity {
             }
         };
         mDatabase.addValueEventListener(postListener);
+    }
+
+    public void getTopScores() {
+        DatabaseReference ref = mDatabase.child("users");
+        ref.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Get map of users in datasnapshot
+                        collectTopScores((Map<String,Object>) dataSnapshot.getValue());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        //handle databaseError
+                    }
+                });
+    }
+
+    private void collectTopScores(Map<String,Object> users) {
+
+        ArrayList<UserTop> phoneNumbers = new ArrayList<>();
+
+        //iterate through each user, ignoring their UID
+        for (Map.Entry<String, Object> entry : users.entrySet()){
+            //Get user map
+            Map singleUser = (Map) entry.getValue();
+            //Get phone field and append to list
+            phoneNumbers.add(new UserTop((String) singleUser.get("username"), (Long) singleUser.get("karma")));
+        }
+
+
+        Collections.sort(phoneNumbers, new Comparator<UserTop>() {
+            @Override
+            public int compare(UserTop userTop, UserTop t1) {
+                return t1.getKarma().compareTo(userTop.getKarma());
+            }
+        });
+        ArrayAdapter<UserTop> adapter = new UserTopAdapter(getApplicationContext(), R.layout.row_user, phoneNumbers);
+        topScores.setAdapter(adapter);
     }
 
 
