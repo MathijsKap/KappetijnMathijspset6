@@ -35,4 +35,5 @@
     <string name="hello_message">Hey there&#160;</string>
     <string name="Ex">!</string>
     <string name="your_karma">Your karma:&#160;</string>
+    <string name="back_to_home">Back to home</string>
 </resources>

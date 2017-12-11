@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,9 +36,13 @@ public class Complete extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        Button backbutton = findViewById(R.id.Complete_back);
+
         FirebaseUser user = mAuth.getCurrentUser();
         String userId = user.getUid();
         readScore(userId);
+
+        backbutton.setOnClickListener(new backListener());
 
     }
     private void updateScore(String userId) {
@@ -62,6 +67,13 @@ public class Complete extends AppCompatActivity {
             }
         };
         mDatabase.addListenerForSingleValueEvent(postListener);
+    }
+
+    private class backListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            finish();
+        }
     }
 
     public void Logout() {
