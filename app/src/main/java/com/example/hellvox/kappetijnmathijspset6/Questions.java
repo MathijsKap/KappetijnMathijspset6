@@ -1,6 +1,8 @@
 package com.example.hellvox.kappetijnmathijspset6;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -8,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,7 +71,6 @@ public class Questions extends AppCompatActivity {
             if (Useranswer.equals(Html.fromHtml(Questions.get(number).getcorrect_answer()).toString())) {
                 score++;
             }
-            Toast.makeText(getApplicationContext(), "" + score, Toast.LENGTH_SHORT).show();
             number++;
             if (number < amount) {
                 Intent intentNext = new Intent(Questions.this, Questions.class);
@@ -82,10 +82,25 @@ public class Questions extends AppCompatActivity {
                 startActivity(intentNext);
                 finish();
             } else {
-                Intent intentNext = new Intent(Questions.this, Logon.class);
+                Intent intentNext = new Intent(Questions.this, Complete.class);
+                intentNext.putExtra("score", score);
                 startActivity(intentNext);
                 finish();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to stop?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Questions.this.finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 }
