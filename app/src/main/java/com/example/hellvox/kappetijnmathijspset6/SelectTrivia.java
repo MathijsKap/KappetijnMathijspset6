@@ -1,6 +1,8 @@
 package com.example.hellvox.kappetijnmathijspset6;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,15 +10,26 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class SelectTrivia extends AppCompatActivity {
 
@@ -26,6 +39,10 @@ public class SelectTrivia extends AppCompatActivity {
     EditText editTextAmount;
     int category;
     String difficulty;
+    JSONObject ObjectArray;
+    ArrayList<Trivia> Questions = new ArrayList<>();
+    ProgressBar progressBar;
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +54,8 @@ public class SelectTrivia extends AppCompatActivity {
         categorySpinner = findViewById(R.id.Category);
         difficultySpinner = findViewById(R.id.Difficulty);
         editTextAmount = findViewById(R.id.NumberAmount);
+        progressBar = findViewById(R.id.progressBar4);
+        constraintLayout = findViewById(R.id.select_layout);
 
         additemsonspinner();
         categorySpinner.setOnItemSelectedListener(new categorySpinnerList());
@@ -66,12 +85,36 @@ public class SelectTrivia extends AppCompatActivity {
             if (!value.equals("")) {
                 amount = Integer.parseInt(value);
             } else amount = 5;
-            Intent intent = new Intent(SelectTrivia.this, Questions.class);
-            intent.putExtra("category", category);
-            intent.putExtra("difficulty", difficulty);
-            intent.putExtra("amount", amount);
-            startActivity(intent);
-            finish();
+            constraintLayout.setBackgroundColor(Color.parseColor("#CFD8DC"));
+            progressBar.setVisibility(View.VISIBLE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            final String url = "https://opentdb.com/api.php?amount="+amount+"&category="+category+"&difficulty="+difficulty+"&type=multiple";
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            JSONArray array = response.optJSONArray("results");
+                            for(int i=0; i<array.length(); i++) {
+                                ObjectArray = array.optJSONObject(i);
+                                Questions.add(new Trivia(ObjectArray.optString("question"), ObjectArray.optString("correct_answer"), ObjectArray.optJSONArray("incorrect_answers").toString()));
+                            }
+                            Intent intent = new Intent(SelectTrivia.this, Questions.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelableArrayList("Questions", Questions);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), "Something went wrong, try again", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+            // Access the RequestQueue through your singleton class.
+            MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsObjRequest);
         }
     }
 
