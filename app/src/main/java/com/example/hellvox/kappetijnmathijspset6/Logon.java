@@ -154,8 +154,8 @@ public class Logon extends AppCompatActivity {
             //Get phone field and append to list
             if (((Long) singleUser.get("guest")).intValue() == 0) {
                 KarmaList.add(new UserTop((String) singleUser.get("username"), (Long) singleUser.get("karma")));
+                totalKarmaAll = totalKarmaAll +  ((Long) singleUser.get("karma")).intValue();
             }
-            totalKarmaAll = totalKarmaAll +  ((Long) singleUser.get("karma")).intValue();
         }
         TextView textView = findViewById(R.id.logon_total);
         textView.setText("Total karma earned by all users: "+totalKarmaAll);
