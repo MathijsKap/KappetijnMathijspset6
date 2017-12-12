@@ -1,8 +1,12 @@
 package com.example.hellvox.kappetijnmathijspset6;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -111,7 +115,14 @@ public class SelectTrivia extends AppCompatActivity {
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(getApplicationContext(), "Something went wrong, try again", Toast.LENGTH_SHORT).show();
+                            if (!Logon.isOnline(getApplicationContext())) {
+                                Snackbar.make(findViewById(android.R.id.content), "No internet connection", Snackbar.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Something went wrong, try again", Toast.LENGTH_SHORT).show();
+                            }
+                            progressBar.setVisibility(View.INVISIBLE);
+                            constraintLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         }
                     });
             // Access the RequestQueue through your singleton class.
