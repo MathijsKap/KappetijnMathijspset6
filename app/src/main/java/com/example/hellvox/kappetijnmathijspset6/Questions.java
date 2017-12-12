@@ -26,6 +26,8 @@ public class Questions extends AppCompatActivity {
     int number;
     int score;
     int amount;
+    int correct;
+    String difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class Questions extends AppCompatActivity {
         number = intent.getIntExtra("number", 0);
         score = intent.getIntExtra("score", 0);
         amount = intent.getIntExtra("max", 5);
+        correct = intent.getIntExtra("correct", 0);
+        difficulty = intent.getStringExtra("difficulty");
 
         TextView textView = findViewById(R.id.question_Question);
         ListView answerss = findViewById(R.id.question_answers);
@@ -69,7 +73,20 @@ public class Questions extends AppCompatActivity {
             Object object  = parent.getItemAtPosition(position);
             String Useranswer = object.toString();
             if (Useranswer.equals(Html.fromHtml(Questions.get(number).getcorrect_answer()).toString())) {
-                score++;
+                switch (difficulty) {
+                    case "easy":
+                        correct++;
+                        score++;
+                        break;
+                    case "medium":
+                        correct++;
+                        score += 2;
+                        break;
+                    case "hard":
+                        correct++;
+                        score += 3;
+                        break;
+                }
             }
             number++;
             if (number < amount) {
@@ -79,12 +96,15 @@ public class Questions extends AppCompatActivity {
                 intentNext.putExtras(bundle);
                 intentNext.putExtra("number", number);
                 intentNext.putExtra("score", score);
+                intentNext.putExtra("difficulty", difficulty);
+                intentNext.putExtra("correct", correct);
                 startActivity(intentNext);
                 finish();
             } else {
                 Intent intentNext = new Intent(Questions.this, Complete.class);
                 intentNext.putExtra("score", score);
                 intentNext.putExtra("amount", amount);
+                intentNext.putExtra("correct", correct);
                 startActivity(intentNext);
                 finish();
             }

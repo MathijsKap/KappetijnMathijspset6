@@ -27,6 +27,7 @@ public class Complete extends AppCompatActivity {
     private DatabaseReference mDatabase;
     int score;
     int amount;
+    int correct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class Complete extends AppCompatActivity {
         Intent intent = getIntent();
         score = intent.getIntExtra("score", 0);
         amount = intent.getIntExtra("amount", 0);
+        correct = intent.getIntExtra("correct", 0);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -42,8 +44,8 @@ public class Complete extends AppCompatActivity {
         TextView scoreText = findViewById(R.id.Complete_correct);
         Button backbutton = findViewById(R.id.Complete_back);
 
-        float temp = (float)score/amount;
-        scoreText.setText("Your score this game: "+score + "/" + amount);
+        float temp = (float)correct/amount;
+        scoreText.setText("Your score this game: "+correct + "/" + amount);
 
 
         setImage(temp);

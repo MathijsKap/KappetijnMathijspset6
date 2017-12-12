@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -88,7 +89,7 @@ public class Logon extends AppCompatActivity {
                 TextView tv = findViewById(R.id.Logon_begin);
                 TextView karma = findViewById(R.id.Logon_karma);
                 tv.setText(getString(R.string.hello_message)+aUser.username + getString(R.string.Ex));
-                karma.setText(getString(R.string.your_karma)+aUser.karma + getString(R.string.Ex));
+                karma.setText(getString(R.string.your_karma)+aUser.karma);
                 topUs.setText(getString(R.string.top_users));
                 progressBar.setVisibility(View.INVISIBLE);
             }
@@ -109,7 +110,9 @@ public class Logon extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User aUser = dataSnapshot.getValue(User.class);
                         if (aUser.guest == 1) {
+                            guestText.setText(Html.fromHtml("You are playing as guest, karma will not be saved! <font color=#2196F3>Register now!</font>"));
                             guestText.setVisibility(View.VISIBLE);
+                            guestText.setOnClickListener(new registerListener());
                         }
                     }
 
@@ -149,7 +152,9 @@ public class Logon extends AppCompatActivity {
             //Get user map
             Map singleUser = (Map) entry.getValue();
             //Get phone field and append to list
-            KarmaList.add(new UserTop((String) singleUser.get("username"), (Long) singleUser.get("karma")));
+            if (((Long) singleUser.get("guest")).intValue() == 0) {
+                KarmaList.add(new UserTop((String) singleUser.get("username"), (Long) singleUser.get("karma")));
+            }
             totalKarmaAll = totalKarmaAll +  ((Long) singleUser.get("karma")).intValue();
         }
         TextView textView = findViewById(R.id.logon_total);
@@ -166,6 +171,14 @@ public class Logon extends AppCompatActivity {
         topScores.setAdapter(adapter);
     }
 
+    private class registerListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            FirebaseAuth.getInstance().signOut();
+            goToHome();
+        }
+    }
+
 
     private class startListener implements View.OnClickListener {
         @Override
@@ -177,6 +190,7 @@ public class Logon extends AppCompatActivity {
 
     private void goToHome() {
         startActivity(new Intent(Logon.this, reglog.class));
+        finish();
     }
 
     public void onResume() {

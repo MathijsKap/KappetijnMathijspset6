@@ -51,8 +51,7 @@ public class reglog extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar5);
         guest = findViewById(R.id.reglog_guest);
 
-        String text = "Play as <font color=#2196F3>guest</font>";
-        guest.setText(Html.fromHtml(text));
+        guest.setText(Html.fromHtml("Play as <font color=#2196F3>guest</font>"));
 
         register.setOnClickListener(new registerListener());
         login.setOnClickListener(new loginListener());
