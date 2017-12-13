@@ -23,7 +23,7 @@ public class TriviaListAdapater extends ArrayAdapter<String> {
         mResource = resource;
     }
 
-    // Function to set a food object into a item from a list.
+    // Function to set a Trivia object into a item from a list.
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -39,6 +39,7 @@ public class TriviaListAdapater extends ArrayAdapter<String> {
         return convertView;
     }
 
+    // Function to get the numbers to letters
     private String toAlphabetic(int i) {
         if( i<0 ) {
             return "-"+toAlphabetic(-i-1);

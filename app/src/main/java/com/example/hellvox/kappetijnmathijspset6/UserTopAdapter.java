@@ -26,7 +26,7 @@ public class UserTopAdapter extends ArrayAdapter<UserTop> {
         mResource = resource;
     }
 
-    // Function to set a food object into a item from a list.
+    // Function to set a User object into a item from a list.
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
