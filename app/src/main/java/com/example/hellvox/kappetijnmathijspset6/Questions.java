@@ -76,20 +76,7 @@ public class Questions extends AppCompatActivity {
             Object object  = parent.getItemAtPosition(position);
             String Useranswer = object.toString();
             if (Useranswer.equals(Html.fromHtml(Questions.get(number).getcorrect_answer()).toString())) {
-                switch (difficulty) {
-                    case "easy":
-                        correct++;
-                        score++;
-                        break;
-                    case "medium":
-                        correct++;
-                        score += 2;
-                        break;
-                    case "hard":
-                        correct++;
-                        score += 3;
-                        break;
-                }
+               counter();
             }
             number++;
             if (number < amount) {
@@ -112,6 +99,23 @@ public class Questions extends AppCompatActivity {
                 startActivity(intentNext);
                 finish();
             }
+        }
+    }
+
+    private void counter() {
+        switch (difficulty) {
+            case "easy":
+                correct++;
+                score++;
+                break;
+            case "medium":
+                correct++;
+                score += 2;
+                break;
+            case "hard":
+                correct++;
+                score += 3;
+                break;
         }
     }
 
