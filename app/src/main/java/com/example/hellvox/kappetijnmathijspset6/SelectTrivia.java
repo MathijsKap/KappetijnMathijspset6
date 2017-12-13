@@ -93,35 +93,40 @@ public class SelectTrivia extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            final String url = "https://opentdb.com/api.php?amount="+amount+"&category="+category+"&difficulty="+difficulty+"&type=multiple";
-            JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                    (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            JSONArray array = response.optJSONArray("results");
-                            for(int i=0; i<array.length(); i++) {
-                                ObjectArray = array.optJSONObject(i);
-                                Questions.add(new Trivia(ObjectArray.optString("question"), ObjectArray.optString("correct_answer"), ObjectArray.optJSONArray("incorrect_answers").toString()));
-                            }
-                            Intent intent = new Intent(SelectTrivia.this, Questions.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putParcelableArrayList("Questions", Questions);
-                            intent.putExtras(bundle);
-                            intent.putExtra("amount", amount);
-                            intent.putExtra("difficulty", difficulty);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }, new Response.ErrorListener() {
-
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            onError();
-                        }
-                    });
-            // Access the RequestQueue through your singleton class.
-            MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsObjRequest);
+            final String url = "https://opentdb.com/api.php?amount="+amount+"&category="+category+
+                    "&difficulty="+difficulty+"&type=multiple";
+            getTrivia(url, amount);
         }
+    }
+
+    private void getTrivia(String url, final int amount) {
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONArray array = response.optJSONArray("results");
+                        for(int i=0; i<array.length(); i++) {
+                            ObjectArray = array.optJSONObject(i);
+                            Questions.add(new Trivia(ObjectArray.optString("question"),
+                                    ObjectArray.optString("correct_answer"),
+                                    ObjectArray.optJSONArray("incorrect_answers")
+                                            .toString()));
+                        }
+                        Intent intent = new Intent(SelectTrivia.this, Questions.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList("Questions", Questions);
+                        intent.putExtras(bundle);
+                        intent.putExtra("amount", amount);
+                        intent.putExtra("difficulty", difficulty);
+                        startActivity(intent);
+                        finish();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {onError();}
+                });
+        // Access the RequestQueue through your singleton class.
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsObjRequest);
     }
 
     private void onError() {
