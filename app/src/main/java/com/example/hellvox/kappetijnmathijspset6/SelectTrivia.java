@@ -120,8 +120,7 @@ public class SelectTrivia extends AppCompatActivity {
                             ObjectArray = array.optJSONObject(i);
                             Trivia trivia = new Trivia(ObjectArray.optString("question"),
                                     ObjectArray.optString("correct_answer"),
-                                    ObjectArray.optJSONArray("incorrect_answers")
-                                            .toString());
+                                    ObjectArray.optJSONArray("incorrect_answers").toString());
                             Questions.add(trivia);
                         }
                         Intent intent = new Intent(SelectTrivia.this, Questions.class);
@@ -137,7 +136,6 @@ public class SelectTrivia extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {onError();}
                 });
-        // Access the RequestQueue through your singleton class.
         MySingleton.getInstance(context).addToRequestQueue(jsObjRequest);
     }
 
