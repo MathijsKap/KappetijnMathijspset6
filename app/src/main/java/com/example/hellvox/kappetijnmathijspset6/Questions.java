@@ -94,6 +94,7 @@ public class Questions extends AppCompatActivity {
         }
     }
 
+    // Function to start the next question.
     private void startNextQuestion() {
         Intent intentNext = new Intent(Questions.this, Questions.class);
         Bundle bundle = new Bundle();
@@ -108,6 +109,7 @@ public class Questions extends AppCompatActivity {
         finish();
     }
 
+    // Function to start the last activity.
     private void startCompelte() {
         Intent intentNext = new Intent(Questions.this, Complete.class);
         intentNext.putExtra("score", score);
