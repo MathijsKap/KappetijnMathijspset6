@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "22751005219",
+    "firebase_url": "https://kappetijnmathijspset6-868d4.firebaseio.com",
+    "project_id": "kappetijnmathijspset6-868d4",
+    "storage_bucket": "kappetijnmathijspset6-868d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22751005219:android:0cab9234ee5dc813",
+        "android_client_info": {
+          "package_name": "com.example.hellvox.kappetijnmathijspset6"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22751005219-3m4kku4ln153acrmbi9ip4q6fffjt29q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hellvox.kappetijnmathijspset6",
+            "certificate_hash": "a49d455f78b42587cfdd895a5016418cda9cdcfe"
+          }
+        },
+        {
+          "client_id": "22751005219-onql095i70kut3dfd1etiig792lgjdq1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFJmPdPaA5sDF8sQAkZLYFx-UysXCcQb8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22751005219-onql095i70kut3dfd1etiig792lgjdq1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
