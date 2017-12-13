@@ -118,10 +118,9 @@ public class SelectTrivia extends AppCompatActivity {
                         saveToSharedPrefs(array);
                         for(int i=0; i<array.length(); i++) {
                             ObjectArray = array.optJSONObject(i);
-                            Trivia trivia = new Trivia(ObjectArray.optString("question"),
+                            Questions.add(new Trivia(ObjectArray.optString("question"),
                                     ObjectArray.optString("correct_answer"),
-                                    ObjectArray.optJSONArray("incorrect_answers").toString());
-                            Questions.add(trivia);
+                                    ObjectArray.optJSONArray("incorrect_answers").toString()));
                         }
                         Intent intent = new Intent(SelectTrivia.this, Questions.class);
                         Bundle bundle = new Bundle();
