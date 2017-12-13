@@ -26,7 +26,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,16 +34,18 @@ import java.util.ArrayList;
 
 public class SelectTrivia extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+    // Initialize variables
+    FirebaseAuth mAuth;
+    JSONObject ObjectArray;
+    ArrayList<Trivia> Questions = new ArrayList<>();
+    Button next;
     Spinner categorySpinner;
     Spinner difficultySpinner;
     EditText editTextAmount;
-    int category;
-    String difficulty;
-    JSONObject ObjectArray;
-    ArrayList<Trivia> Questions = new ArrayList<>();
     ProgressBar progressBar;
     ConstraintLayout constraintLayout;
+    int category;
+    String difficulty;
     Context context;
 
     @Override
@@ -53,23 +54,26 @@ public class SelectTrivia extends AppCompatActivity {
         setContentView(R.layout.activity_select_trivia);
         context = getApplicationContext();
 
+        // Setup the user and database connection.
         mAuth = FirebaseAuth.getInstance();
 
+        // Assign the views to the variables.
         categorySpinner = findViewById(R.id.Category);
         difficultySpinner = findViewById(R.id.Difficulty);
         editTextAmount = findViewById(R.id.NumberAmount);
         progressBar = findViewById(R.id.progressBar4);
         constraintLayout = findViewById(R.id.select_layout);
+        next = findViewById(R.id.next);
+        addItemsOnSpinner();
 
-        additemsonspinner();
+        // Set listeners.
         categorySpinner.setOnItemSelectedListener(new categorySpinnerList());
         difficultySpinner.setOnItemSelectedListener(new difficultySpinnerList());
-
-        Button next = (Button) findViewById(R.id.next);
         next.setOnClickListener(new nextListener());
     }
 
-    public void additemsonspinner() {
+    // Function to add items on the Spinner objects.
+    public void addItemsOnSpinner() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.category_spinner, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -81,6 +85,7 @@ public class SelectTrivia extends AppCompatActivity {
         difficultySpinner.setAdapter(adapter2);
     }
 
+    // Listener to go to the questions and get all the content needed.
     private class nextListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -126,20 +131,21 @@ public class SelectTrivia extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {onError();}
                 });
         // Access the RequestQueue through your singleton class.
-        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsObjRequest);
+        MySingleton.getInstance(context).addToRequestQueue(jsObjRequest);
     }
 
     private void onError() {
-        if (!Logon.isOnline(getApplicationContext())) {
+        if (!Functions.isOnline(context)) {
             Snackbar.make(findViewById(android.R.id.content), "No internet connection", Snackbar.LENGTH_LONG).show();
         } else {
-            Toast.makeText(getApplicationContext(), "Something went wrong, try again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Something went wrong, try again", Toast.LENGTH_SHORT).show();
         }
         progressBar.setVisibility(View.INVISIBLE);
         constraintLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
+    // Variables for the spinner classes.
     private class difficultySpinnerList implements AdapterView.OnItemSelectedListener {
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
@@ -191,20 +197,7 @@ public class SelectTrivia extends AppCompatActivity {
         }
     }
 
-    public void Logout() {
-        FirebaseAuth.getInstance().signOut();
-        //Snackbar.make(this.findViewById(android.R.id.content), "Logout Successful", Snackbar.LENGTH_LONG).show();
-        Toast.makeText(this, "Logout succesful",Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, reglog.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public boolean userState() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        return currentUser != null;
-    }
-
+    // Function to create the menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

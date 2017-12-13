@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,10 +19,13 @@ import java.util.Collections;
 
 public class Questions extends AppCompatActivity {
 
+    // Initialize variables
     ArrayList<Trivia> Questions = new ArrayList<>();
     JSONArray array;
     ArrayList<String> answers = new ArrayList<>();
     TriviaListAdapater adapater;
+    ListView answersList;
+    TextView questionField;
     int number;
     int score;
     int amount;
@@ -35,9 +37,8 @@ public class Questions extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
 
+        // Assign all the variables from the previous activity.
         Intent intent = getIntent();
-
-
         Questions = intent.getExtras().getParcelableArrayList("Questions");
         number = intent.getIntExtra("number", 0);
         score = intent.getIntExtra("score", 0);
@@ -45,13 +46,22 @@ public class Questions extends AppCompatActivity {
         correct = intent.getIntExtra("correct", 0);
         difficulty = intent.getStringExtra("difficulty");
 
-        Toast.makeText(getApplicationContext(), ""+amount, Toast.LENGTH_SHORT).show();
+        // Assign the views to the variables.
+        questionField = findViewById(R.id.question_Question);
+        answersList = findViewById(R.id.question_answers);
 
-        TextView textView = findViewById(R.id.question_Question);
-        ListView answerss = findViewById(R.id.question_answers);
+        // Set the questions and answers to the views.
+        setQandA();
+        adapater = new TriviaListAdapater(getApplicationContext(),R.layout.row_trivia,answers);
+        answersList.setAdapter(adapater);
 
+        // Set listener
+        answersList.setOnItemClickListener(new AnswerClickListener());
+    }
 
-        textView.setText(Html.fromHtml(Questions.get(number).getQuestion()).toString());
+    // Function to set the question and collect all the possible answers.
+    private void setQandA() {
+        questionField.setText(Html.fromHtml(Questions.get(number).getQuestion()).toString());
         try {
             array = new JSONArray(Html.fromHtml(Questions.get(number).getIncorrect()).toString());
         } catch (JSONException e) {
@@ -62,15 +72,10 @@ public class Questions extends AppCompatActivity {
         }
         answers.add(Html.fromHtml(Questions.get(number).getcorrect_answer()).toString());
         Collections.shuffle(answers);
-
-        adapater = new TriviaListAdapater(getApplicationContext(),R.layout.row_trivia,answers);
-        answerss.setAdapter(adapater);
-
-        answerss.setOnItemClickListener(new GoButtonClickListener());
     }
 
-
-    private class GoButtonClickListener implements AdapterView.OnItemClickListener {
+    // Listener to get the users Answer and get all the variables for the next question.
+    private class AnswerClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Object object  = parent.getItemAtPosition(position);
@@ -79,6 +84,7 @@ public class Questions extends AppCompatActivity {
                counter();
             }
             number++;
+            // Only start the next question if there is one
             if (number < amount) {
                 Intent intentNext = new Intent(Questions.this, Questions.class);
                 Bundle bundle = new Bundle();
@@ -102,6 +108,7 @@ public class Questions extends AppCompatActivity {
         }
     }
 
+    // Function to count the score and current question.
     private void counter() {
         switch (difficulty) {
             case "easy":
@@ -119,6 +126,7 @@ public class Questions extends AppCompatActivity {
         }
     }
 
+    // Function to alert the user if they want to stop in the middle of a trivia.
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)

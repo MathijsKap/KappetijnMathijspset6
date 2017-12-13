@@ -50,6 +50,7 @@ public class Complete extends AppCompatActivity {
         // Assign the views to the variables.
         TextView scoreText = findViewById(R.id.Complete_correct);
         TextView scoreNumber = findViewById(R.id.Complete_percent);
+        TextView karmaEarned = findViewById(R.id.Complete_earned);
         Button backbutton = findViewById(R.id.Complete_back);
 
         // Calculate the user score for image and percentage.
@@ -59,6 +60,7 @@ public class Complete extends AppCompatActivity {
         // Set the content to the views.
         scoreText.setText(R.string.Complete_score);
         scoreNumber.setText(score_percent+"%");
+        karmaEarned.setText("Karma earned: "+score);
         setImage(score_image);
 
         // Update user score in the database.
@@ -96,7 +98,7 @@ public class Complete extends AppCompatActivity {
                 User aUser = dataSnapshot.child("users").child(id).getValue(User.class);
                 score = score + aUser.karma;
                 TextView totalKarma = findViewById(R.id.Complete_karma);
-                totalKarma.setText("Total Karma:" + score);
+                totalKarma.setText("Total Karma: " + score);
                 updateScore(id);
             }
 

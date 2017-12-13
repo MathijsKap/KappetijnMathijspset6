@@ -2,8 +2,6 @@ package com.example.hellvox.kappetijnmathijspset6;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +34,7 @@ import java.util.Map;
 
 public class Logon extends AppCompatActivity {
 
+    // Initialize variables
     FirebaseAuth mAuth;
     FirebaseUser user;
     DatabaseReference mDatabase;
@@ -67,7 +66,7 @@ public class Logon extends AppCompatActivity {
         header = findViewById(R.id.list_header);
 
         // Check for internet to inform user.
-        if (!isOnline(getApplicationContext())) {
+        if (!Functions.isOnline(context)) {
             Snackbar.make(findViewById(android.R.id.content), "No internet connection",
                     Snackbar.LENGTH_LONG).show();
         }
@@ -76,7 +75,7 @@ public class Logon extends AppCompatActivity {
         if (user != null) {
             progressBar.setVisibility(View.VISIBLE);
             String userId = user.getUid();
-            readNameFromDB(userId);
+            readUserFromDB(userId);
             getTopScores();
             getGuest(userId);
         } else goToHome();
@@ -85,8 +84,8 @@ public class Logon extends AppCompatActivity {
         startTrivia.setOnClickListener(new startListener());
     }
 
-    // Function
-    public void readNameFromDB(final String id) {
+    // Function to get the user info from the database and set views accordingly.
+    public void readUserFromDB(final String id) {
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -101,7 +100,6 @@ public class Logon extends AppCompatActivity {
                 header.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -110,66 +108,61 @@ public class Logon extends AppCompatActivity {
         mDatabase.addValueEventListener(postListener);
     }
 
+    // Function to check if the user is a guest and set views accordingly.
     public void getGuest(final String id) {
-        DatabaseReference ref = mDatabase.child("users").child(id);
-        ref.addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        User aUser = dataSnapshot.getValue(User.class);
-                        if (aUser.guest == 1) {
-                            guestText.setText(Html.fromHtml("You are playing as guest, karma will not be saved! <font color=#2196F3>Register now!</font>"));
-                            guestText.setVisibility(View.VISIBLE);
-                            guestText.setOnClickListener(new registerListener());
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        //handle databaseError
-                    }
-                }
-        );
-    }
-
-    public void getTopScores() {
-        DatabaseReference ref = mDatabase.child("users");
-        ref.addListenerForSingleValueEvent(
-            new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    //Get map of users in datasnapshot
-                    collectTopScores((Map<String,Object>) dataSnapshot.getValue());
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    //handle databaseError
+        DatabaseReference reference = mDatabase.child("users").child(id);
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User aUser = dataSnapshot.getValue(User.class);
+                if (aUser.guest == 1) {
+                    guestText.setText(Html.fromHtml("You are playing as guest, " +
+                            "karma will not be saved! " +
+                            "<font color=#2196F3>Register now!</font>"));
+                    guestText.setVisibility(View.VISIBLE);
+                    guestText.setOnClickListener(new registerListener());
                 }
             }
-        );
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        reference.addListenerForSingleValueEvent(postListener);
     }
 
-    private void collectTopScores(Map<String,Object> users) {
+    // Function to get topScores from all users via a user object.
+    public void getTopScores() {
+        DatabaseReference reference = mDatabase.child("users");
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                collectTopScores((Map<String,Object>) dataSnapshot.getValue());
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
+            }
+        };
+        reference.addListenerForSingleValueEvent(postListener);
+    }
+
+    // Function to collect all the top scores in a loop from the object of the previous function.
+    private void collectTopScores(Map<String,Object> users) {
         ArrayList<UserTop> KarmaList = new ArrayList<>();
         int totalKarmaAll = 0;
-
         //iterate through each user, ignoring their UID
         for (Map.Entry<String, Object> entry : users.entrySet()){
             //Get user map
             Map singleUser = (Map) entry.getValue();
-            //Get phone field and append to list
             if (((Long) singleUser.get("guest")).intValue() == 0) {
                 KarmaList.add(new UserTop((String) singleUser.get("username"), (Long) singleUser.get("karma")));
                 totalKarmaAll = totalKarmaAll +  ((Long) singleUser.get("karma")).intValue();
             }
         }
-
         TextView textView = findViewById(R.id.logon_total);
-        textView.setText("Total karma earned by all users: "+totalKarmaAll);
-
-
+        textView.setText(getString(R.string.AllUserKarma)+totalKarmaAll);
+        // Sort the list from high to low.
         Collections.sort(KarmaList, new Comparator<UserTop>() {
             @Override
             public int compare(UserTop userTop, UserTop t1) {
@@ -180,6 +173,13 @@ public class Logon extends AppCompatActivity {
         topScores.setAdapter(adapter);
     }
 
+    // Function to got to the register page.
+    private void goToHome() {
+        startActivity(new Intent(Logon.this, reglog.class));
+        finish();
+    }
+
+    // Listener if the user is a guest.
     private class registerListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -188,7 +188,7 @@ public class Logon extends AppCompatActivity {
         }
     }
 
-
+    // Listener to start a trivia game.
     private class startListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -197,16 +197,13 @@ public class Logon extends AppCompatActivity {
         }
     }
 
-    private void goToHome() {
-        startActivity(new Intent(Logon.this, reglog.class));
-        finish();
-    }
-
+    // Function to refresh the topscores after a user finished a trivia.
     public void onResume() {
         super.onResume();
         getTopScores();
     }
 
+    // Function to check if the user is really logged in.
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -216,6 +213,7 @@ public class Logon extends AppCompatActivity {
         }
     }
 
+    // Functions to create the menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -242,12 +240,5 @@ public class Logon extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public static boolean isOnline(Context c) {
-        ConnectivityManager cm =
-                (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

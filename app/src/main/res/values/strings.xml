@@ -41,4 +41,6 @@
     <string name="rank">Rank</string>
     <string name="name">Name</string>
     <string name="karma">Karma</string>
+    <string name="AllUserKarma">Total karma earned by all users:&#160;</string>
+    <string name="reward_picture">Reward Picture</string>
 </resources>
