@@ -38,4 +38,7 @@
     <string name="back_to_home">Back to home</string>
     <string name="you_are_playing_as_guest_karma_will_not_be_saved">You are playing as guest, karma will not be saved! Register now!</string>
     <string name="Complete_score">Your score this game:</string>
+    <string name="rank">Rank</string>
+    <string name="name">Name</string>
+    <string name="karma">Karma</string>
 </resources>

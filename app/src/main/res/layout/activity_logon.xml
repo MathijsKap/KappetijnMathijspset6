@@ -130,9 +130,10 @@
             android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
             android:paddingStart="8dp"
-            android:text="Rank"
+            android:text="@string/rank"
             android:textColor="@color/colorText"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/textView2"
@@ -141,7 +142,7 @@
             android:layout_gravity="end"
             android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
-            android:text="Name"
+            android:text="@string/name"
             android:textAlignment="center"
             android:textColor="@color/colorText"
             android:textSize="18sp" />
@@ -154,10 +155,11 @@
             android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
             android:paddingEnd="8dp"
-            android:text="Karma"
+            android:text="@string/karma"
             android:textAlignment="textEnd"
             android:textColor="@color/colorText"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
