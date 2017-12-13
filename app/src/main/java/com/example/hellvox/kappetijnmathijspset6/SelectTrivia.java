@@ -116,19 +116,23 @@ public class SelectTrivia extends AppCompatActivity {
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            if (!Logon.isOnline(getApplicationContext())) {
-                                Snackbar.make(findViewById(android.R.id.content), "No internet connection", Snackbar.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Something went wrong, try again", Toast.LENGTH_SHORT).show();
-                            }
-                            progressBar.setVisibility(View.INVISIBLE);
-                            constraintLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            onError();
                         }
                     });
             // Access the RequestQueue through your singleton class.
             MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsObjRequest);
         }
+    }
+
+    private void onError() {
+        if (!Logon.isOnline(getApplicationContext())) {
+            Snackbar.make(findViewById(android.R.id.content), "No internet connection", Snackbar.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Something went wrong, try again", Toast.LENGTH_SHORT).show();
+        }
+        progressBar.setVisibility(View.INVISIBLE);
+        constraintLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     private class difficultySpinnerList implements AdapterView.OnItemSelectedListener {
