@@ -15,12 +15,12 @@ public class TriviaListAdapater extends ArrayAdapter<String> {
 
     // Initialize variables
     private Context mContext;
-    int mResource;
+    int myResource;
 
     public TriviaListAdapater(Context context, int resource, ArrayList<String> objects) {
         super(context, resource, objects);
         mContext = context;
-        mResource = resource;
+        myResource = resource;
     }
 
     // Function to set a Trivia object into a item from a list.
@@ -29,7 +29,7 @@ public class TriviaListAdapater extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         String answer = getItem(position);
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        convertView = inflater.inflate(mResource, parent, false);
+        convertView = inflater.inflate(myResource, parent, false);
 
         TextView answers = convertView.findViewById(R.id.logon_top);
         TextView number = convertView.findViewById(R.id.row_Number);
