@@ -87,26 +87,34 @@ public class Questions extends AppCompatActivity {
             number++;
             // Only start the next question if there is one
             if (number < amount) {
-                Intent intentNext = new Intent(Questions.this, Questions.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("Questions", Questions);
-                intentNext.putExtras(bundle);
-                intentNext.putExtra("number", number);
-                intentNext.putExtra("score", score);
-                intentNext.putExtra("difficulty", difficulty);
-                intentNext.putExtra("correct", correct);
-                intentNext.putExtra("amount", amount);
-                startActivity(intentNext);
-                finish();
+                startNextQuestion();
             } else {
-                Intent intentNext = new Intent(Questions.this, Complete.class);
-                intentNext.putExtra("score", score);
-                intentNext.putExtra("amount", amount);
-                intentNext.putExtra("correct", correct);
-                startActivity(intentNext);
-                finish();
+                startCompelte();
             }
         }
+    }
+
+    private void startNextQuestion() {
+        Intent intentNext = new Intent(Questions.this, Questions.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("Questions", Questions);
+        intentNext.putExtras(bundle);
+        intentNext.putExtra("number", number);
+        intentNext.putExtra("score", score);
+        intentNext.putExtra("difficulty", difficulty);
+        intentNext.putExtra("correct", correct);
+        intentNext.putExtra("amount", amount);
+        startActivity(intentNext);
+        finish();
+    }
+
+    private void startCompelte() {
+        Intent intentNext = new Intent(Questions.this, Complete.class);
+        intentNext.putExtra("score", score);
+        intentNext.putExtra("amount", amount);
+        intentNext.putExtra("correct", correct);
+        startActivity(intentNext);
+        finish();
     }
 
     // Function to count the score and current question.
