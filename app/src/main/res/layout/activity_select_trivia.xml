@@ -21,11 +21,13 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NumberAmount" />
 
     <TextView
         android:id="@+id/textView2"
@@ -33,7 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto"
         android:text="@string/category"
+        android:textColor="@color/colorText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +47,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto"
         android:text="@string/difficulty"
+        android:textColor="@color/colorText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Category" />
 
@@ -62,7 +68,9 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto"
         android:text="@string/amount"
+        android:textColor="@color/colorText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Difficulty" />
 
@@ -73,6 +81,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:fontFamily="@font/roboto"
         android:hint="5"
         android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"

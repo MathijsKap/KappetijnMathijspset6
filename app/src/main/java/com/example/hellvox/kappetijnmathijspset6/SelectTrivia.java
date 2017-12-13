@@ -107,7 +107,7 @@ public class SelectTrivia extends AppCompatActivity {
                             Bundle bundle = new Bundle();
                             bundle.putParcelableArrayList("Questions", Questions);
                             intent.putExtras(bundle);
-                            intent.putExtra("max", amount);
+                            intent.putExtra("amount", amount);
                             intent.putExtra("difficulty", difficulty);
                             startActivity(intent);
                             finish();

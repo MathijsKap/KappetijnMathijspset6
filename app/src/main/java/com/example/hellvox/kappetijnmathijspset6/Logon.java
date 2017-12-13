@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ public class Logon extends AppCompatActivity {
     TextView topUs;
     TextView guestText;
     Button startTrivia;
+    LinearLayout header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class Logon extends AppCompatActivity {
         topScores = findViewById(R.id.Logon_top);
         topUs = findViewById(R.id.logon_top);
         guestText = findViewById(R.id.textView5);
+        header = findViewById(R.id.list_header);
+
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (!isOnline(getApplicationContext())) {
@@ -91,6 +95,7 @@ public class Logon extends AppCompatActivity {
                 tv.setText(getString(R.string.hello_message)+aUser.username + getString(R.string.Ex));
                 karma.setText(getString(R.string.your_karma)+aUser.karma);
                 topUs.setText(getString(R.string.top_users));
+                header.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
             }
 
@@ -157,6 +162,7 @@ public class Logon extends AppCompatActivity {
                 totalKarmaAll = totalKarmaAll +  ((Long) singleUser.get("karma")).intValue();
             }
         }
+
         TextView textView = findViewById(R.id.logon_total);
         textView.setText("Total karma earned by all users: "+totalKarmaAll);
 

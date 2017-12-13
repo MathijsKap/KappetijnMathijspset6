@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="@font/roboto_medium"
         android:textColor="@color/colorText"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,18 +26,21 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/start_game"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ListView
         android:id="@+id/Logon_top"
         android:layout_width="0dp"
-        android:layout_height="181dp"
+        android:layout_height="185dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logon_top" />
 
@@ -45,13 +48,14 @@
         android:id="@+id/logon_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/roboto"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/roboto_medium"
         android:textColor="@color/colorText"
-        android:textSize="16sp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Logon_begin" />
+        app:layout_constraintTop_toBottomOf="@+id/Logon_karma" />
 
     <ProgressBar
         android:id="@+id/progressBar2"
@@ -73,19 +77,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/roboto"
         android:textColor="@color/colorText"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logon_total" />
+        app:layout_constraintTop_toTopOf="@+id/textView5" />
 
     <TextView
         android:id="@+id/logon_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,4 +107,57 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Logon_begin" />
+
+    <LinearLayout
+        android:id="@+id/list_header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/colorLightPrimary"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/Logon_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingStart="8dp"
+            android:text="Rank"
+            android:textColor="@color/colorText"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Name"
+            android:textAlignment="center"
+            android:textColor="@color/colorText"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingEnd="8dp"
+            android:text="Karma"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorText"
+            android:textSize="18sp" />
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

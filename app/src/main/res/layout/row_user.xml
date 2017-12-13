@@ -9,26 +9,38 @@
 
 
     <TextView
-        android:id="@+id/row_Karma"
-        android:layout_width="wrap_content"
+        android:id="@+id/row_Rank"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:layout_weight="10"
+        android:layout_weight="15"
         android:fontFamily="@font/roboto"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textColor="@color/colorText"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/row_Username"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:layout_weight="90"
+        android:layout_weight="70"
         android:fontFamily="@font/roboto"
         android:textAlignment="center"
         android:textColor="@color/colorText"
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/row_Karma"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_weight="15"
+        android:fontFamily="@font/roboto"
+        android:textAlignment="textEnd"
+        android:textColor="@color/colorText"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

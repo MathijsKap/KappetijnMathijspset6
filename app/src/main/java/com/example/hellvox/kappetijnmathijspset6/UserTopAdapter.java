@@ -38,9 +38,12 @@ public class UserTopAdapter extends ArrayAdapter<UserTop> {
 
         TextView karmaa = convertView.findViewById(R.id.row_Karma);
         TextView usernamee = convertView.findViewById(R.id.row_Username);
+        TextView rank = convertView.findViewById(R.id.row_Rank);
 
         karmaa.setText(""+karma);
         usernamee.setText(username);
+        int ranking = position +1;
+        rank.setText(""+ranking);
         return convertView;
     }
 }

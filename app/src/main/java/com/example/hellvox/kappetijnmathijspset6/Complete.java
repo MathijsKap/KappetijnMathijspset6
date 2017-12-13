@@ -42,34 +42,35 @@ public class Complete extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         TextView scoreText = findViewById(R.id.Complete_correct);
+        TextView scoreNumber = findViewById(R.id.Complete_percent);
         Button backbutton = findViewById(R.id.Complete_back);
 
-        float temp = (float)correct/amount;
-        scoreText.setText("Your score this game: "+correct + "/" + amount);
+        float score_image = (float)correct/amount;
+        int score_percent = Math.round(score_image*100);
 
-
-        setImage(temp);
+        scoreText.setText(R.string.Complete_score);
+        scoreNumber.setText(score_percent+"%");
+        setImage(score_image);
 
         FirebaseUser user = mAuth.getCurrentUser();
         String userId = user.getUid();
         readScore(userId);
 
         backbutton.setOnClickListener(new backListener());
-
     }
 
-    private void setImage(double temp) {
+    private void setImage(double score_image) {
         ImageView image = findViewById(R.id.imageView2);
-        if (temp == 1) {
+        if (score_image == 1) {
             image.setImageResource(R.drawable.perfect);
         }
-        if (temp >= 0.7 && temp < 1 ) {
+        if (score_image >= 0.7 && score_image < 1 ) {
             image.setImageResource(R.drawable.welldone);
         }
-        if (temp > 0.4 && temp < 0.7 ) {
+        if (score_image > 0.4 && score_image < 0.7 ) {
             image.setImageResource(R.drawable.notbad);
         }
-        if (temp <= 0.4 ) {
+        if (score_image <= 0.4 ) {
             image.setImageResource(R.drawable.badscore);
         }
     }

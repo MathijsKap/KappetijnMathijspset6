@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,9 +41,11 @@ public class Questions extends AppCompatActivity {
         Questions = intent.getExtras().getParcelableArrayList("Questions");
         number = intent.getIntExtra("number", 0);
         score = intent.getIntExtra("score", 0);
-        amount = intent.getIntExtra("max", 5);
+        amount = intent.getIntExtra("amount", 5);
         correct = intent.getIntExtra("correct", 0);
         difficulty = intent.getStringExtra("difficulty");
+
+        Toast.makeText(getApplicationContext(), ""+amount, Toast.LENGTH_SHORT).show();
 
         TextView textView = findViewById(R.id.question_Question);
         ListView answerss = findViewById(R.id.question_answers);
@@ -60,7 +63,7 @@ public class Questions extends AppCompatActivity {
         answers.add(Html.fromHtml(Questions.get(number).getcorrect_answer()).toString());
         Collections.shuffle(answers);
 
-        adapater = new TriviaListAdapater(getApplicationContext(),R.layout.row_todo,answers);
+        adapater = new TriviaListAdapater(getApplicationContext(),R.layout.row_trivia,answers);
         answerss.setAdapter(adapater);
 
         answerss.setOnItemClickListener(new GoButtonClickListener());
@@ -98,6 +101,7 @@ public class Questions extends AppCompatActivity {
                 intentNext.putExtra("score", score);
                 intentNext.putExtra("difficulty", difficulty);
                 intentNext.putExtra("correct", correct);
+                intentNext.putExtra("amount", amount);
                 startActivity(intentNext);
                 finish();
             } else {
