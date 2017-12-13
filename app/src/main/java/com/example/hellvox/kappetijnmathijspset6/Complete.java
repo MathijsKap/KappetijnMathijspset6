@@ -143,9 +143,9 @@ public class Complete extends AppCompatActivity {
                 Functions.Logout(context, mAuth);
                 return true;
             case R.id.Login:
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                FragmentTransaction fragt = getSupportFragmentManager().beginTransaction();
                 login_dialog fragment = new login_dialog();
-                fragment.show(ft, "dialog");
+                fragment.show(fragt, "dialog");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

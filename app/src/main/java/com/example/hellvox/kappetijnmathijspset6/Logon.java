@@ -233,9 +233,9 @@ public class Logon extends AppCompatActivity {
                 Functions.Logout(context, mAuth);
                 return true;
             case R.id.Login:
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                FragmentTransaction fragtrans = getSupportFragmentManager().beginTransaction();
                 login_dialog fragment = new login_dialog();
-                fragment.show(ft, "dialog");
+                fragment.show(fragtrans, "dialog");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

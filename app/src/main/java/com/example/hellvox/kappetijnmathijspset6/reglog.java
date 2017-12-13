@@ -167,9 +167,9 @@ public class reglog extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.Login:
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransactiont = getSupportFragmentManager().beginTransaction();
                 login_dialog fragment = new login_dialog();
-                fragment.show(ft, "dialog");
+                fragment.show(fragmentTransactiont, "dialog");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
