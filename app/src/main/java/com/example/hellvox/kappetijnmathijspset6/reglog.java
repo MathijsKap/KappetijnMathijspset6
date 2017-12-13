@@ -31,6 +31,7 @@ import java.util.Random;
 
 public class reglog extends AppCompatActivity {
 
+    // Initialize variables
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     Button register;
@@ -45,26 +46,27 @@ public class reglog extends AppCompatActivity {
         setContentView(R.layout.activity_reglog);
         context = getApplicationContext();
 
+        // Setup the user and database connection.
         mAuth = FirebaseAuth.getInstance();
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        // Assign the views to the variables.
         login = (Button) findViewById(R.id.Login);
         register = (Button) findViewById(R.id.Register);
         progressBar = findViewById(R.id.progressBar5);
         guest = findViewById(R.id.reglog_guest);
-
         guest.setText(Html.fromHtml("Play as <font color=#2196F3>guest</font>"));
 
+        // Set listeners
         register.setOnClickListener(new registerListener());
         login.setOnClickListener(new loginListener());
         guest.setOnClickListener(new guestListener());
     }
 
+    // Function to get all the variables and pass them to the register function.
     private class registerListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            progressBar.setVisibility(View.VISIBLE);
             EditText username = findViewById(R.id.Username);
             EditText pass = findViewById(R.id.Password);
             EditText name = findViewById(R.id.Name);
@@ -81,21 +83,28 @@ public class reglog extends AppCompatActivity {
             }
             else {
                 createUser(email, password, nickname, 0);
+                progressBar.setVisibility(View.VISIBLE);
             }
         }
     }
 
+    // Function to make a guest account
     private class guestListener implements View.OnClickListener {
-
         @Override
         public void onClick(View view) {
-            String email = getSaltString(15) + "@gmail.com";
-            String password = getSaltString(8);
-            String nickname = "guest" + getSaltString(5) ;
-            createUser(email, password, nickname, 1);
+            if (!Functions.isOnline(context)) {
+                Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
+            } else {
+                progressBar.setVisibility(View.VISIBLE);
+                String email = getSaltString(15) + "@gmail.com";
+                String password = getSaltString(8);
+                String nickname = "guest" + getSaltString(5);
+                createUser(email, password, nickname, 1);
+            }
         }
     }
 
+    // Function to make a salt
     // source: https://stackoverflow.com/questions/45841500/generate-random-emails
     private String getSaltString(int length) {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -109,6 +118,7 @@ public class reglog extends AppCompatActivity {
 
     }
 
+    // Function provided by google to create an user.
     public void createUser(String email, String password, final String nickname, final int guest) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -129,15 +139,17 @@ public class reglog extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("fail", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.INVISIBLE);
+                            if (!Functions.isOnline(context)) {
+                                Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
+                            } else Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
 
     }
 
+    // Function to pop up the login dialog.
     private class loginListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -147,6 +159,7 @@ public class reglog extends AppCompatActivity {
         }
     }
 
+    // Create the menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

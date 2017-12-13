@@ -88,6 +88,11 @@ public class login_dialog extends DialogFragment {
                             getActivity().finish();
                         } else {
                             // If sign in fails, display a message to the user.
+                            progressBar.setVisibility(View.INVISIBLE);
+                            if (!Functions.isOnline(getContext())) {
+                                Toast.makeText(getContext(), "No internet connection", Toast.LENGTH_SHORT).show();
+                            } else Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+
                             Log.w("fail", "signInWithEmail:failure", task.getException());
                             //Toast.makeText(getContext(), "Wrong email/password combo.",Toast.LENGTH_SHORT).show();
                         }
