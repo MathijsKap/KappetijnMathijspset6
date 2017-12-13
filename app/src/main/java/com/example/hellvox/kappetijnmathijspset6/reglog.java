@@ -1,5 +1,6 @@
 package com.example.hellvox.kappetijnmathijspset6;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
@@ -36,11 +37,13 @@ public class reglog extends AppCompatActivity {
     Button login;
     ProgressBar progressBar;
     TextView guest;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reglog);
+        context = getApplicationContext();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -56,8 +59,6 @@ public class reglog extends AppCompatActivity {
         register.setOnClickListener(new registerListener());
         login.setOnClickListener(new loginListener());
         guest.setOnClickListener(new guestListener());
-
-
     }
 
     private class registerListener implements View.OnClickListener {
@@ -146,29 +147,14 @@ public class reglog extends AppCompatActivity {
         }
     }
 
-    public void Logout() {
-        FirebaseAuth.getInstance().signOut();
-        //Snackbar.make(this.findViewById(android.R.id.content), "Logout Successful", Snackbar.LENGTH_LONG).show();
-        Toast.makeText(this, "Logout succesful",Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, reglog.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public boolean userState() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        return currentUser != null;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if (userState()) {
+        if (Functions.userState(mAuth)) {
             inflater.inflate(R.menu.menu_logout, menu);
         } else {
             inflater.inflate(R.menu.menu_login, menu);
         }
-
         return true;
     }
 
@@ -177,7 +163,8 @@ public class reglog extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.Logout:
-                Logout();
+                Functions.Logout(context, mAuth);
+                finish();
                 return true;
             case R.id.Login:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

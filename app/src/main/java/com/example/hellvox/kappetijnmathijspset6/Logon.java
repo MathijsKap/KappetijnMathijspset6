@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,23 +36,29 @@ import java.util.Map;
 
 public class Logon extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
+    DatabaseReference mDatabase;
     ProgressBar progressBar;
     ListView topScores;
     TextView topUs;
     TextView guestText;
     Button startTrivia;
     LinearLayout header;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logon);
+        context=getApplicationContext();
 
+        // Setup the user and database connection.
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        user = mAuth.getCurrentUser();
 
+        // Assign the views to the variables.
         startTrivia = findViewById(R.id.Start);
         progressBar = findViewById(R.id.progressBar2);
         topScores = findViewById(R.id.Logon_top);
@@ -61,37 +66,35 @@ public class Logon extends AppCompatActivity {
         guestText = findViewById(R.id.textView5);
         header = findViewById(R.id.list_header);
 
-
-        FirebaseUser user = mAuth.getCurrentUser();
+        // Check for internet to inform user.
         if (!isOnline(getApplicationContext())) {
-            Snackbar.make(findViewById(android.R.id.content), "No internet connection", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(android.R.id.content), "No internet connection",
+                    Snackbar.LENGTH_LONG).show();
         }
+
+        // If user is logged in, setup the activity, else logout and go to login screen.
         if (user != null) {
+            progressBar.setVisibility(View.VISIBLE);
             String userId = user.getUid();
             readNameFromDB(userId);
             getTopScores();
             getGuest(userId);
-            progressBar.setVisibility(View.VISIBLE);
         } else goToHome();
 
+        // Set listeners.
         startTrivia.setOnClickListener(new startListener());
     }
 
-    private void userCheck() {
-        if (!userState()) {
-            goToHome();
-        }
-    }
-
+    // Function
     public void readNameFromDB(final String id) {
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 User aUser = dataSnapshot.child("users").child(id).getValue(User.class);
 
                 TextView tv = findViewById(R.id.Logon_begin);
                 TextView karma = findViewById(R.id.Logon_karma);
+
                 tv.setText(getString(R.string.hello_message)+aUser.username + getString(R.string.Ex));
                 karma.setText(getString(R.string.your_karma)+aUser.karma);
                 topUs.setText(getString(R.string.top_users));
@@ -213,29 +216,14 @@ public class Logon extends AppCompatActivity {
         }
     }
 
-    public void Logout() {
-        FirebaseAuth.getInstance().signOut();
-        //Snackbar.make(this.findViewById(android.R.id.content), "Logout Successful", Snackbar.LENGTH_LONG).show();
-        Toast.makeText(this, "Logout succesful",Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, reglog.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public boolean userState() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        return currentUser != null;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if (userState()) {
+        if (Functions.userState(mAuth)) {
             inflater.inflate(R.menu.menu_logout, menu);
         } else {
             inflater.inflate(R.menu.menu_login, menu);
         }
-
         return true;
     }
 
@@ -244,7 +232,7 @@ public class Logon extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.Logout:
-                Logout();
+                Functions.Logout(context, mAuth);
                 return true;
             case R.id.Login:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

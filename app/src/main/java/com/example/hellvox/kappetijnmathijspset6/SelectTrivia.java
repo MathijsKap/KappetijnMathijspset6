@@ -3,13 +3,11 @@ package com.example.hellvox.kappetijnmathijspset6;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,11 +45,13 @@ public class SelectTrivia extends AppCompatActivity {
     ArrayList<Trivia> Questions = new ArrayList<>();
     ProgressBar progressBar;
     ConstraintLayout constraintLayout;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_trivia);
+        context = getApplicationContext();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -199,12 +199,11 @@ public class SelectTrivia extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if (userState()) {
+        if (Functions.userState(mAuth)) {
             inflater.inflate(R.menu.menu_logout, menu);
         } else {
             inflater.inflate(R.menu.menu_login, menu);
         }
-
         return true;
     }
 
@@ -213,7 +212,7 @@ public class SelectTrivia extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.Logout:
-                Logout();
+                Functions.Logout(context, mAuth);
                 return true;
             case R.id.Login:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
