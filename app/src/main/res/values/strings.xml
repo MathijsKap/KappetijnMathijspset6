@@ -43,4 +43,6 @@
     <string name="karma">Karma</string>
     <string name="AllUserKarma">Total karma earned by all users:&#160;</string>
     <string name="reward_picture">Reward Picture</string>
+    <string name="last_questions">Last (5) questions</string>
+    <string name="_5">5</string>
 </resources>

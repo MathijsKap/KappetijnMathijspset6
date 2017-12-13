@@ -45,6 +45,7 @@ public class Questions extends AppCompatActivity {
         amount = intent.getIntExtra("amount", 5);
         correct = intent.getIntExtra("correct", 0);
         difficulty = intent.getStringExtra("difficulty");
+        if (difficulty == null) difficulty = "easy";
 
         // Assign the views to the variables.
         questionField = findViewById(R.id.question_Question);

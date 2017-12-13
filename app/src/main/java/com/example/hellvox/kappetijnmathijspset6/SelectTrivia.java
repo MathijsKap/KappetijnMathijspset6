@@ -2,6 +2,7 @@ package com.example.hellvox.kappetijnmathijspset6;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -26,8 +28,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -45,6 +49,7 @@ public class SelectTrivia extends AppCompatActivity {
     ProgressBar progressBar;
     ConstraintLayout constraintLayout;
     int category;
+    int counter;
     String difficulty;
     Context context;
 
@@ -110,12 +115,14 @@ public class SelectTrivia extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         JSONArray array = response.optJSONArray("results");
+                        saveToSharedPrefs(array);
                         for(int i=0; i<array.length(); i++) {
                             ObjectArray = array.optJSONObject(i);
-                            Questions.add(new Trivia(ObjectArray.optString("question"),
+                            Trivia trivia = new Trivia(ObjectArray.optString("question"),
                                     ObjectArray.optString("correct_answer"),
                                     ObjectArray.optJSONArray("incorrect_answers")
-                                            .toString()));
+                                            .toString());
+                            Questions.add(trivia);
                         }
                         Intent intent = new Intent(SelectTrivia.this, Questions.class);
                         Bundle bundle = new Bundle();
@@ -143,6 +150,52 @@ public class SelectTrivia extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
         constraintLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        TextView old_questions = findViewById(R.id.Select_old);
+        old_questions.setVisibility(View.VISIBLE);
+        old_questions.setOnClickListener(new oldquestionListener());
+
+    }
+
+    // Listener to go to the questions and get all the content needed.
+    private class oldquestionListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            loadFromSharedPrefs();
+            Toast.makeText(context, "Offline, karma will not be saved",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void saveToSharedPrefs(JSONArray ObjectArray) {
+        SharedPreferences prefs = this.getSharedPreferences("old_questions", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("array", ObjectArray.toString());
+        editor.apply();
+    }
+
+    public void loadFromSharedPrefs() {
+        SharedPreferences prefs = this.getSharedPreferences("old_questions", MODE_PRIVATE);
+        String s = prefs.getString("array",  null);
+        JSONObject Array;
+        JSONArray data = null;
+        try {
+            data = new JSONArray(s);
+        } catch (JSONException e) {}
+        for(int i=0; i<data.length(); i++) {
+            Array = data.optJSONObject(i);
+            Trivia trivia = new Trivia(Array.optString("question"),
+                    Array.optString("correct_answer"),
+                    Array.optJSONArray("incorrect_answers")
+                            .toString());
+            Questions.add(trivia);
+        }
+        Intent intent = new Intent(SelectTrivia.this, Questions.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("Questions", Questions);
+        intent.putExtras(bundle);
+        intent.putExtra("amount", Questions.size());
+        startActivity(intent);
+        finish();
     }
 
     // Variables for the spinner classes.
