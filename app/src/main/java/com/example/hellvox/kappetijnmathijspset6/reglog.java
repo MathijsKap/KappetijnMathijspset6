@@ -159,9 +159,9 @@ public class reglog extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem unit) {
         // Handle item selection
-        switch (item.getItemId()) {
+        switch (unit.getItemId()) {
             case R.id.Logout:
                 Functions.Logout(context, mAuth);
                 finish();
@@ -172,7 +172,7 @@ public class reglog extends AppCompatActivity {
                 fragment.show(fragmentTransactiont, "dialog");
                 return true;
             default:
-                return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(unit);
         }
     }
 }

@@ -136,9 +136,9 @@ public class Complete extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem log) {
         // Handle item selection
-        switch (item.getItemId()) {
+        switch (log.getItemId()) {
             case R.id.Logout:
                 Functions.Logout(context, mAuth);
                 return true;
@@ -148,7 +148,7 @@ public class Complete extends AppCompatActivity {
                 fragment.show(fragt, "dialog");
                 return true;
             default:
-                return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(log);
         }
     }
 }
