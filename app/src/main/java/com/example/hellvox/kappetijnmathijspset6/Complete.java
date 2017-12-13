@@ -26,6 +26,10 @@ public class Complete extends AppCompatActivity {
     // Initialize variables
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    TextView scoreText;
+    TextView scoreNumber;
+    TextView karmaEarned;
+    Button backbutton;
     int score;
     int amount;
     int correct;
@@ -48,10 +52,7 @@ public class Complete extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // Assign the views to the variables.
-        TextView scoreText = findViewById(R.id.Complete_correct);
-        TextView scoreNumber = findViewById(R.id.Complete_percent);
-        TextView karmaEarned = findViewById(R.id.Complete_earned);
-        Button backbutton = findViewById(R.id.Complete_back);
+        setViews();
 
         // Calculate the user score for image and percentage.
         float score_image = (float)correct/amount;
@@ -70,6 +71,13 @@ public class Complete extends AppCompatActivity {
 
         // Set listeners.
         backbutton.setOnClickListener(new backListener());
+    }
+
+    private void setViews() {
+        scoreText = findViewById(R.id.Complete_correct);
+        scoreNumber = findViewById(R.id.Complete_percent);
+        karmaEarned = findViewById(R.id.Complete_earned);
+        backbutton = findViewById(R.id.Complete_back);
     }
 
     // Function to set the image to the view, depending on the user score.
@@ -94,7 +102,6 @@ public class Complete extends AppCompatActivity {
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 User aUser = dataSnapshot.child("users").child(id).getValue(User.class);
                 score = score + aUser.karma;
                 TextView totalKarma = findViewById(R.id.Complete_karma);
