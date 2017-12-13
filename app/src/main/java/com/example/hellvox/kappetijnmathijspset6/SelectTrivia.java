@@ -271,6 +271,11 @@ public class SelectTrivia extends AppCompatActivity {
                 login_dialog fragment = new login_dialog();
                 fragment.show(ft, "dialog");
                 return true;
+            case R.id.Rules:
+                FragmentTransaction fragtrans2 = getSupportFragmentManager().beginTransaction();
+                info_dialog infofragment = new info_dialog();
+                infofragment.show(fragtrans2, "info");
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

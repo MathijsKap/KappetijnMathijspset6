@@ -26,7 +26,7 @@
         <activity android:name=".reglog" />
         <activity android:name=".SelectTrivia" />
         <activity android:name=".Questions" />
-        <activity android:name=".Complete"></activity>
+        <activity android:name=".Complete" />
     </application>
 
 </manifest>

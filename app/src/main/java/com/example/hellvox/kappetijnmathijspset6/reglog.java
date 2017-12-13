@@ -171,6 +171,11 @@ public class reglog extends AppCompatActivity {
                 login_dialog fragment = new login_dialog();
                 fragment.show(fragmentTransactiont, "dialog");
                 return true;
+            case R.id.Rules:
+                FragmentTransaction fragtrans2 = getSupportFragmentManager().beginTransaction();
+                info_dialog infofragment = new info_dialog();
+                infofragment.show(fragtrans2, "info");
+                return true;
             default:
                 return super.onOptionsItemSelected(unit);
         }

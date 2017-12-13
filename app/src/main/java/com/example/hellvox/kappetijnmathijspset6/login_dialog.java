@@ -28,6 +28,7 @@ import java.util.concurrent.Executor;
 
 public class login_dialog extends DialogFragment {
 
+    // Initialize variables
     private FirebaseAuth mAuth;
     EditText username;
     EditText pass;
@@ -38,7 +39,7 @@ public class login_dialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment and assign views
         view = inflater.inflate(R.layout.fragment_login_dialog, container, false);
         username = view.findViewById(R.id.Username2);
         pass = view.findViewById(R.id.Password2);
@@ -51,10 +52,11 @@ public class login_dialog extends DialogFragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
+        // Set login button listener
         login.setOnClickListener(new LoginListener());
     }
 
-
+    // Listener that checks login fields and starts login function
     private class LoginListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -69,6 +71,7 @@ public class login_dialog extends DialogFragment {
         }
     }
 
+    // Login function provided by android studio.
     public void login(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {

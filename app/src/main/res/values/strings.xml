@@ -45,4 +45,10 @@
     <string name="reward_picture">Reward Picture</string>
     <string name="last_questions">Last time questions</string>
     <string name="_5">5</string>
+    <string name="rules">Info</string>
+    <string name="info">
+        This is a simple Trivia app where you can create an account and play Trivia games.\n\n
+        The app saves karma earned in your account and displays the best users of the app.\n\n
+        Easy questions earn you 1 karma point, medium questions 2 points and hard questions 3 points.
+    </string>
 </resources>

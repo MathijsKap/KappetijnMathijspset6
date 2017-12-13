@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/Rules"
+        android:title="@string/rules" />
+    <item
         android:id="@+id/Login"
         android:title="@string/login" />
+
 </menu>
