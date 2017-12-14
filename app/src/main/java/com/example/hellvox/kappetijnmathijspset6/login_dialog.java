@@ -1,13 +1,11 @@
 package com.example.hellvox.kappetijnmathijspset6;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +20,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.concurrent.Executor;
 
 
 public class login_dialog extends DialogFragment {
@@ -94,7 +90,7 @@ public class login_dialog extends DialogFragment {
                             progressBar.setVisibility(View.INVISIBLE);
                             if (!Functions.isOnline(getContext())) {
                                 Toast.makeText(getContext(), "No internet connection", Toast.LENGTH_SHORT).show();
-                            } else Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                            } else Toast.makeText(getContext(), "Incorrect login information, try again", Toast.LENGTH_SHORT).show();
 
                             Log.w("fail", "signInWithEmail:failure", task.getException());
                             //Toast.makeText(getContext(), "Wrong email/password combo.",Toast.LENGTH_SHORT).show();
