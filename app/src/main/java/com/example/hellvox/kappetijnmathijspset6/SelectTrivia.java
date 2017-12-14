@@ -124,20 +124,25 @@ public class SelectTrivia extends AppCompatActivity {
                                     ObjectArray.optString("correct_answer"),
                                     ObjectArray.optJSONArray("incorrect_answers").toString()));
                         }
-                        Intent intent = new Intent(SelectTrivia.this, Questions.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList("Questions", Questions);
-                        intent.putExtras(bundle);
-                        intent.putExtra("amount", amount);
-                        intent.putExtra("difficulty", difficulty);
-                        startActivity(intent);
-                        finish();
+                        goToQuestions(amount);
+
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {onError();}
                 });
         MySingleton.getInstance(context).addToRequestQueue(jsObjRequest);
+    }
+
+    private void goToQuestions(int amount) {
+        Intent intent = new Intent(SelectTrivia.this, Questions.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("Questions", Questions);
+        intent.putExtras(bundle);
+        intent.putExtra("amount", amount);
+        intent.putExtra("difficulty", difficulty);
+        startActivity(intent);
+        finish();
     }
 
     private void onError() {
