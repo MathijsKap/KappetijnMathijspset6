@@ -64,7 +64,10 @@ public class login_dialog extends DialogFragment {
             String password = pass.getText().toString();
             if (password.length() < 6) {
                 Toast.makeText(getContext(), "Password to short!", Toast.LENGTH_SHORT).show();
-            } else {
+            } else if (email.length() < 1) {
+                Toast.makeText(getContext(), "Incorrect email", Toast.LENGTH_SHORT).show();
+            }
+            else {
                 progressBar.setVisibility(View.VISIBLE);
                 login(email, password);
             }
