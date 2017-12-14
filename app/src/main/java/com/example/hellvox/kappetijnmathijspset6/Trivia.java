@@ -5,10 +5,6 @@ import android.os.Parcelable;
 
 import org.json.JSONArray;
 
-/**
- * Created by HellVox on 4-12-2017.
- */
-
 public class Trivia implements Parcelable {
 
     // Initialize variables

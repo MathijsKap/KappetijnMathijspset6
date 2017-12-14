@@ -1,9 +1,5 @@
 package com.example.hellvox.kappetijnmathijspset6;
 
-/**
- * Created by hellvox on 12/7/17.
- */
-
 public class User {
 
     public String username;
