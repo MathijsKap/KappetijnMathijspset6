@@ -20,17 +20,15 @@ import java.util.Collections;
 public class Questions extends AppCompatActivity {
 
     // Initialize variables
-    ArrayList<Trivia> Questions = new ArrayList<>();
-    JSONArray array;
-    ArrayList<String> answers = new ArrayList<>();
-    TriviaListAdapater adapater;
-    ListView answersList;
-    TextView questionField;
-    int number;
-    int score;
-    int amount;
-    int correct;
-    String difficulty;
+    private ArrayList<Trivia> Questions = new ArrayList<>();
+    private ArrayList<String> answers = new ArrayList<>();
+    private JSONArray array;
+    private TextView questionField;
+    private int number;
+    private int score;
+    private int amount;
+    private int correct;
+    private String difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +47,11 @@ public class Questions extends AppCompatActivity {
 
         // Assign the views to the variables.
         questionField = findViewById(R.id.question_Question);
-        answersList = findViewById(R.id.question_answers);
+        ListView answersList = findViewById(R.id.question_answers);
 
         // Set the questions and answers to the views.
         setQandA();
-        adapater = new TriviaListAdapater(getApplicationContext(),R.layout.row_trivia,answers);
+        TriviaListAdapater adapater = new TriviaListAdapater(getApplicationContext(), R.layout.row_trivia, answers);
         answersList.setAdapter(adapater);
 
         // Set listener

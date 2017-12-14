@@ -35,16 +35,15 @@ import java.util.Map;
 public class Logon extends AppCompatActivity {
 
     // Initialize variables
-    FirebaseAuth mAuth;
-    FirebaseUser user;
-    DatabaseReference mDatabase;
-    ProgressBar progressBar;
-    ListView topScores;
-    TextView topUs;
-    TextView guestText;
-    Button startTrivia;
-    LinearLayout header;
-    Context context;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    private ProgressBar progressBar;
+    private ListView topScores;
+    private TextView topUs;
+    private TextView guestText;
+    private Button startTrivia;
+    private LinearLayout header;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,7 @@ public class Logon extends AppCompatActivity {
         // Setup the user and database connection.
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        user = mAuth.getCurrentUser();
+        FirebaseUser user = mAuth.getCurrentUser();
 
         // Assign the views to the variables.
         assignViews();
@@ -90,7 +89,7 @@ public class Logon extends AppCompatActivity {
     }
 
     // Function to get the user info from the database and set views accordingly.
-    public void readUserFromDB(final String id) {
+    private void readUserFromDB(final String id) {
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -114,7 +113,7 @@ public class Logon extends AppCompatActivity {
     }
 
     // Function to check if the user is a guest and set views accordingly.
-    public void getGuest(final String id) {
+    private void getGuest(final String id) {
         DatabaseReference reference = mDatabase.child("users").child(id);
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -136,8 +135,9 @@ public class Logon extends AppCompatActivity {
         reference.addListenerForSingleValueEvent(postListener);
     }
 
+    // Inspired by: https://stackoverflow.com/questions/38965731/how-to-get-all-childs-data-in-firebase-database
     // Function to get topScores from all users via a user object.
-    public void getTopScores() {
+    private void getTopScores() {
         DatabaseReference reference = mDatabase.child("users");
         ValueEventListener postListener = new ValueEventListener() {
             @Override

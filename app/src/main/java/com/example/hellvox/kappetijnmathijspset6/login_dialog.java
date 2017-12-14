@@ -25,17 +25,16 @@ public class login_dialog extends DialogFragment {
 
     // Initialize variables
     private FirebaseAuth mAuth;
-    EditText username;
-    EditText pass;
-    Button login;
-    ProgressBar progressBar;
-    View view;
+    private EditText username;
+    private EditText pass;
+    private Button login;
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment and assign views
-        view = inflater.inflate(R.layout.fragment_login_dialog, container, false);
+        View view = inflater.inflate(R.layout.fragment_login_dialog, container, false);
         username = view.findViewById(R.id.Username2);
         pass = view.findViewById(R.id.Password2);
         login = view.findViewById(R.id.Login);

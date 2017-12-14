@@ -26,14 +26,12 @@ public class Complete extends AppCompatActivity {
     // Initialize variables
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    TextView scoreText;
-    TextView scoreNumber;
-    TextView karmaEarned;
-    Button backbutton;
-    int score;
-    int amount;
-    int correct;
-    Context context;
+    private TextView scoreText;
+    private TextView scoreNumber;
+    private TextView karmaEarned;
+    private Button backbutton;
+    private int score;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +42,8 @@ public class Complete extends AppCompatActivity {
         // Get the variables needed from the previous activity.
         Intent intent = getIntent();
         score = intent.getIntExtra("score", 0);
-        amount = intent.getIntExtra("amount", 0);
-        correct = intent.getIntExtra("correct", 0);
+        int amount = intent.getIntExtra("amount", 0);
+        int correct = intent.getIntExtra("correct", 0);
 
         // Setup the user and database connection.
         mAuth = FirebaseAuth.getInstance();
@@ -55,7 +53,7 @@ public class Complete extends AppCompatActivity {
         setViews();
 
         // Calculate the user score for image and percentage.
-        float score_image = (float)correct/amount;
+        float score_image = (float) correct / amount;
         int score_percent = Math.round(score_image*100);
 
         // Set the content to the views.

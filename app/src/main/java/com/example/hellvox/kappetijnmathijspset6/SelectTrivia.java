@@ -38,18 +38,18 @@ import java.util.ArrayList;
 public class SelectTrivia extends AppCompatActivity {
 
     // Initialize variables
-    FirebaseAuth mAuth;
-    JSONObject ObjectArray;
-    ArrayList<Trivia> Questions = new ArrayList<>();
-    Button next;
-    Spinner categorySpinner;
-    Spinner difficultySpinner;
-    EditText editTextAmount;
-    ProgressBar progressBar;
-    ConstraintLayout constraintLayout;
-    int category;
-    String difficulty;
-    Context context;
+    private FirebaseAuth mAuth;
+    private JSONObject ObjectArray;
+    private ArrayList<Trivia> Questions = new ArrayList<>();
+    private Button next;
+    private Spinner categorySpinner;
+    private Spinner difficultySpinner;
+    private EditText editTextAmount;
+    private ProgressBar progressBar;
+    private ConstraintLayout constraintLayout;
+    private int category;
+    private String difficulty;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +80,7 @@ public class SelectTrivia extends AppCompatActivity {
     }
 
     // Function to add items on the Spinner objects.
-    public void addItemsOnSpinner() {
+    private void addItemsOnSpinner() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.category_spinner, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -171,14 +171,14 @@ public class SelectTrivia extends AppCompatActivity {
         }
     }
 
-    public void saveToSharedPrefs(JSONArray ObjectArray) {
+    private void saveToSharedPrefs(JSONArray ObjectArray) {
         SharedPreferences prefs = this.getSharedPreferences("old_questions", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("array", ObjectArray.toString());
         editor.apply();
     }
 
-    public void loadFromSharedPrefs() {
+    private void loadFromSharedPrefs() {
         SharedPreferences prefs = this.getSharedPreferences("old_questions", MODE_PRIVATE);
         String s = prefs.getString("array",  null);
         JSONObject Array;

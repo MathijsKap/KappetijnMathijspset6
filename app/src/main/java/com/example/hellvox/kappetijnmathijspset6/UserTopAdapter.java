@@ -10,15 +10,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by HellVox on 11-12-2017.
- */
-
 public class UserTopAdapter extends ArrayAdapter<UserTop> {
 
     // Initialize variables
     private Context mContext;
-    int mResource;
+    private int mResource;
 
     public UserTopAdapter(Context context, int resource, ArrayList<UserTop> objects) {
         super(context, resource, objects);

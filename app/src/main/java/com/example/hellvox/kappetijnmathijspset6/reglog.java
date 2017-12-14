@@ -33,11 +33,8 @@ public class reglog extends AppCompatActivity {
     // Initialize variables
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    Button register;
-    Button login;
-    ProgressBar progressBar;
-    TextView guest;
-    Context context;
+    private ProgressBar progressBar;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +47,10 @@ public class reglog extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // Assign the views to the variables.
-        login = (Button) findViewById(R.id.Login);
-        register = (Button) findViewById(R.id.Register);
+        Button login = (Button) findViewById(R.id.Login);
+        Button register = (Button) findViewById(R.id.Register);
+        TextView guest = findViewById(R.id.reglog_guest);
         progressBar = findViewById(R.id.progressBar5);
-        guest = findViewById(R.id.reglog_guest);
         guest.setText(Html.fromHtml("Play as <font color=#2196F3>guest</font>"));
 
         // Set listeners
@@ -106,12 +103,12 @@ public class reglog extends AppCompatActivity {
     // Function to make a salt
     // source: https://stackoverflow.com/questions/45841500/generate-random-emails
     private String getSaltString(int length) {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        String tokens = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$";
         StringBuilder salt = new StringBuilder();
         Random random = new Random();
         while (salt.length() < length) {
-            int index = (int) (random.nextFloat() * chars.length());
-            salt.append(chars.charAt(index));
+            int index = (int) (random.nextFloat() * tokens.length());
+            salt.append(tokens.charAt(index));
         }
         return salt.toString();
 
@@ -139,7 +136,7 @@ public class reglog extends AppCompatActivity {
                             progressBar.setVisibility(View.INVISIBLE);
                             if (!Functions.isOnline(context)) {
                                 Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
-                            } else Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
+                            } else Toast.makeText(context, "Email already used or try again.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

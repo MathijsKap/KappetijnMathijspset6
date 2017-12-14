@@ -15,7 +15,7 @@ public class TriviaListAdapater extends ArrayAdapter<String> {
 
     // Initialize variables
     private Context mContext;
-    int myResource;
+    private int myResource;
 
     public TriviaListAdapater(Context context, int resource, ArrayList<String> objects) {
         super(context, resource, objects);

@@ -49,6 +49,7 @@
     <string name="info">
         This is a simple Trivia app where you can create an account and play Trivia games.\n\n
         The app saves karma earned in your account and displays the best users of the app.\n\n
-        Easy questions earn you 1 karma point, medium questions 2 points and hard questions 3 points.
+        Easy questions earn you 1 karma point, medium questions 2 points and hard questions 3 points.\n\n
+        The last trivia you played is stored. This way you can play them again if you do not have internet acces.
     </string>
 </resources>
