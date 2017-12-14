@@ -238,9 +238,9 @@ public class Logon extends AppCompatActivity {
                 fragment.show(fragtrans, "dialog");
                 return true;
             case R.id.Rules:
-                FragmentTransaction fragtrans2 = getSupportFragmentManager().beginTransaction();
+                FragmentTransaction fragRules = getSupportFragmentManager().beginTransaction();
                 info_dialog infofragment = new info_dialog();
-                infofragment.show(fragtrans2, "info");
+                infofragment.show(fragRules, "info");
                 return true;
             default:
                 return super.onOptionsItemSelected(option);
