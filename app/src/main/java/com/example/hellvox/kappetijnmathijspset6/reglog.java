@@ -161,12 +161,12 @@ public class reglog extends AppCompatActivity {
 
     // Create the menu
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu unit) {
         MenuInflater inflater = getMenuInflater();
         if (Functions.userState(mAuth)) {
-            inflater.inflate(R.menu.menu_logout, menu);
+            inflater.inflate(R.menu.menu_logout, unit);
         } else {
-            inflater.inflate(R.menu.menu_login, menu);
+            inflater.inflate(R.menu.menu_login, unit);
         }
         return true;
     }

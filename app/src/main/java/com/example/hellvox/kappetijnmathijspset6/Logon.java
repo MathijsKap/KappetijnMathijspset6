@@ -215,12 +215,12 @@ public class Logon extends AppCompatActivity {
 
     // Functions to create the menu
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu option) {
         MenuInflater inflater = getMenuInflater();
         if (Functions.userState(mAuth)) {
-            inflater.inflate(R.menu.menu_logout, menu);
+            inflater.inflate(R.menu.menu_logout, option);
         } else {
-            inflater.inflate(R.menu.menu_login, menu);
+            inflater.inflate(R.menu.menu_login, option);
         }
         return true;
     }

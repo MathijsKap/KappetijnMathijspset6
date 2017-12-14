@@ -132,12 +132,12 @@ public class Complete extends AppCompatActivity {
 
     // Create the menu.
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu log) {
         MenuInflater inflater = getMenuInflater();
         if (Functions.userState(mAuth)) {
-            inflater.inflate(R.menu.menu_logout, menu);
+            inflater.inflate(R.menu.menu_logout, log);
         } else {
-            inflater.inflate(R.menu.menu_login, menu);
+            inflater.inflate(R.menu.menu_login, log);
         }
         return true;
     }
