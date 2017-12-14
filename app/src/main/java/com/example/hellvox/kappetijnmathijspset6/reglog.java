@@ -110,7 +110,7 @@ public class reglog extends AppCompatActivity {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
         Random random = new Random();
-        while (salt.length() < length) { // length of the random string.
+        while (salt.length() < length) {
             int index = (int) (random.nextFloat() * chars.length());
             salt.append(chars.charAt(index));
         }
@@ -126,7 +126,6 @@ public class reglog extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("sign", "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             String userId = user.getUid();
                             mDatabase.child("users").child(userId).child("username").setValue(nickname);
@@ -138,7 +137,6 @@ public class reglog extends AppCompatActivity {
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("fail", "createUserWithEmail:failure", task.getException());
                             progressBar.setVisibility(View.INVISIBLE);
                             if (!Functions.isOnline(context)) {
                                 Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();

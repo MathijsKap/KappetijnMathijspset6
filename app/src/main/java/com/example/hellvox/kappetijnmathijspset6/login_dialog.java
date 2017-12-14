@@ -78,7 +78,6 @@ public class login_dialog extends DialogFragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("sign", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             progressBar.setVisibility(View.INVISIBLE);
                             //Toast.makeText(getContext(), "Succes!", Toast.LENGTH_SHORT).show();
@@ -91,9 +90,6 @@ public class login_dialog extends DialogFragment {
                             if (!Functions.isOnline(getContext())) {
                                 Toast.makeText(getContext(), "No internet connection", Toast.LENGTH_SHORT).show();
                             } else Toast.makeText(getContext(), "Incorrect login information, try again", Toast.LENGTH_SHORT).show();
-
-                            Log.w("fail", "signInWithEmail:failure", task.getException());
-                            //Toast.makeText(getContext(), "Wrong email/password combo.",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
