@@ -33,14 +33,14 @@ public class reglog extends AppCompatActivity {
     // Initialize variables
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    private ProgressBar progressBar;
-    private Context context;
+    private ProgressBar mProgressBar;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reglog);
-        context = getApplicationContext();
+        mContext = getApplicationContext();
 
         // Setup the user and database connection.
         mAuth = FirebaseAuth.getInstance();
@@ -50,7 +50,7 @@ public class reglog extends AppCompatActivity {
         Button login = (Button) findViewById(R.id.Login);
         Button register = (Button) findViewById(R.id.Register);
         TextView guest = findViewById(R.id.reglog_guest);
-        progressBar = findViewById(R.id.progressBar5);
+        mProgressBar = findViewById(R.id.progressBar5);
         guest.setText(Html.fromHtml("Play as <font color=#2196F3>guest</font>"));
 
         // Set listeners
@@ -70,16 +70,19 @@ public class reglog extends AppCompatActivity {
             String password = pass.getText().toString();
             String nickname = name.getText().toString();
             if (password.length() < 6) {
-                Toast.makeText(getApplicationContext(), "Password to short!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                        "Password to short!", Toast.LENGTH_SHORT).show();
             } else if (nickname.length() < 1) {
-                Toast.makeText(getApplicationContext(), "Please fill in your name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                        "Please fill in your name", Toast.LENGTH_SHORT).show();
             }
             else if (email.length() < 1) {
-                Toast.makeText(getApplicationContext(), "Please fill in your email", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                        "Please fill in your email", Toast.LENGTH_SHORT).show();
             }
             else {
                 createUser(email, password, nickname, 0);
-                progressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -88,10 +91,10 @@ public class reglog extends AppCompatActivity {
     private class guestListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            if (!Functions.isOnline(context)) {
-                Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
+            if (!Functions.isOnline(mContext)) {
+                Toast.makeText(mContext, "No internet connection", Toast.LENGTH_SHORT).show();
             } else {
-                progressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.VISIBLE);
                 String email = getSaltString(15) + "@gmail.com";
                 String password = getSaltString(8);
                 String nickname = "guest" + getSaltString(5);
@@ -124,19 +127,23 @@ public class reglog extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             String userId = user.getUid();
-                            mDatabase.child("users").child(userId).child("username").setValue(nickname);
+                            mDatabase.child("users").child(userId).child("username")
+                                    .setValue(nickname);
                             mDatabase.child("users").child(userId).child("karma").setValue(0);
                             mDatabase.child("users").child(userId).child("guest").setValue(guest);
-                            Toast.makeText(getApplicationContext(), "Have fun!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Have fun!",
+                                    Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(reglog.this, Logon.class);
                             startActivity(intent);
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
-                            progressBar.setVisibility(View.INVISIBLE);
-                            if (!Functions.isOnline(context)) {
-                                Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
-                            } else Toast.makeText(context, "Email already used or try again.", Toast.LENGTH_SHORT).show();
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            if (!Functions.isOnline(mContext)) {
+                                Toast.makeText(mContext, "No internet connection",
+                                        Toast.LENGTH_SHORT).show();
+                            } else Toast.makeText(mContext, "Email already used or try again.",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -170,13 +177,13 @@ public class reglog extends AppCompatActivity {
         // Handle item selection
         switch (unit.getItemId()) {
             case R.id.Logout:
-                Functions.Logout(context, mAuth);
+                Functions.Logout(mContext, mAuth);
                 finish();
                 return true;
             case R.id.Login:
-                FragmentTransaction fragmentTransactiont = getSupportFragmentManager().beginTransaction();
+                FragmentTransaction Transaction = getSupportFragmentManager().beginTransaction();
                 login_dialog fragment = new login_dialog();
-                fragment.show(fragmentTransactiont, "dialog");
+                fragment.show(Transaction, "dialog");
                 return true;
             case R.id.Rules:
                 FragmentTransaction fragtransRules = getSupportFragmentManager().beginTransaction();

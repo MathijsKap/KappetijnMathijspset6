@@ -26,22 +26,22 @@ public class Complete extends AppCompatActivity {
     // Initialize variables
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    private TextView scoreText;
-    private TextView scoreNumber;
-    private TextView karmaEarned;
-    private Button backbutton;
-    private int score;
-    private Context context;
+    private TextView mScoreText;
+    private TextView mScoreNumber;
+    private TextView mKarmaEarned;
+    private Button mBackbutton;
+    private int mScore;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete);
-        context = getApplicationContext();
+        mContext = getApplicationContext();
 
         // Get the variables needed from the previous activity.
         Intent intent = getIntent();
-        score = intent.getIntExtra("score", 0);
+        mScore = intent.getIntExtra("score", 0);
         int amount = intent.getIntExtra("amount", 0);
         int correct = intent.getIntExtra("correct", 0);
 
@@ -57,9 +57,9 @@ public class Complete extends AppCompatActivity {
         int score_percent = Math.round(score_image*100);
 
         // Set the content to the views.
-        scoreText.setText(R.string.Complete_score);
-        scoreNumber.setText(score_percent+"%");
-        karmaEarned.setText("Karma earned: "+score);
+        mScoreText.setText(R.string.Complete_score);
+        mScoreNumber.setText(score_percent+"%");
+        mKarmaEarned.setText("Karma earned: "+mScore);
         setImage(score_image);
 
         // Update user score in the database.
@@ -68,14 +68,14 @@ public class Complete extends AppCompatActivity {
         readScore(userId);
 
         // Set listeners.
-        backbutton.setOnClickListener(new backListener());
+        mBackbutton.setOnClickListener(new backListener());
     }
 
     private void setViews() {
-        scoreText = findViewById(R.id.Complete_correct);
-        scoreNumber = findViewById(R.id.Complete_percent);
-        karmaEarned = findViewById(R.id.Complete_earned);
-        backbutton = findViewById(R.id.Complete_back);
+        mScoreText = findViewById(R.id.Complete_correct);
+        mScoreNumber = findViewById(R.id.Complete_percent);
+        mKarmaEarned = findViewById(R.id.Complete_earned);
+        mBackbutton = findViewById(R.id.Complete_back);
     }
 
     // Function to set the image to the view, depending on the user score.
@@ -101,9 +101,9 @@ public class Complete extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User aUser = dataSnapshot.child("users").child(id).getValue(User.class);
-                score = score + aUser.karma;
+                mScore = mScore + aUser.karma;
                 TextView totalKarma = findViewById(R.id.Complete_karma);
-                totalKarma.setText("Total Karma: " + score);
+                totalKarma.setText("Total Karma: " + mScore);
                 updateScore(id);
             }
 
@@ -117,7 +117,7 @@ public class Complete extends AppCompatActivity {
 
     // Function replace the user score with the new one in the database.
     private void updateScore(String userId) {
-        mDatabase.child("users").child(userId).child("karma").setValue(score);
+        mDatabase.child("users").child(userId).child("karma").setValue(mScore);
     }
 
     // Listener for the button on the layout
@@ -145,7 +145,7 @@ public class Complete extends AppCompatActivity {
         // Handle item selection
         switch (log.getItemId()) {
             case R.id.Logout:
-                Functions.Logout(context, mAuth);
+                Functions.Logout(mContext, mAuth);
                 return true;
             case R.id.Login:
                 FragmentTransaction fragt = getSupportFragmentManager().beginTransaction();

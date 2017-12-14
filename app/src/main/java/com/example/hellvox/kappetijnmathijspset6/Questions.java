@@ -22,13 +22,13 @@ public class Questions extends AppCompatActivity {
     // Initialize variables
     private ArrayList<Trivia> Questions = new ArrayList<>();
     private ArrayList<String> answers = new ArrayList<>();
-    private JSONArray array;
-    private TextView questionField;
-    private int number;
-    private int score;
-    private int amount;
-    private int correct;
-    private String difficulty;
+    private JSONArray mArray;
+    private TextView mQuestionField;
+    private int mNumber;
+    private int mScore;
+    private int mAmount;
+    private int mCorrect;
+    private String mDifficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,20 +38,21 @@ public class Questions extends AppCompatActivity {
         // Assign all the variables from the previous activity.
         Intent intent = getIntent();
         Questions = intent.getExtras().getParcelableArrayList("Questions");
-        number = intent.getIntExtra("number", 0);
-        score = intent.getIntExtra("score", 0);
-        amount = intent.getIntExtra("amount", 5);
-        correct = intent.getIntExtra("correct", 0);
-        difficulty = intent.getStringExtra("difficulty");
-        if (difficulty == null) difficulty = "easy";
+        mNumber = intent.getIntExtra("number", 0);
+        mScore = intent.getIntExtra("score", 0);
+        mAmount = intent.getIntExtra("amount", 5);
+        mCorrect = intent.getIntExtra("correct", 0);
+        mDifficulty = intent.getStringExtra("difficulty");
+        if (mDifficulty == null) mDifficulty = "easy";
 
         // Assign the views to the variables.
-        questionField = findViewById(R.id.question_Question);
+        mQuestionField = findViewById(R.id.question_Question);
         ListView answersList = findViewById(R.id.question_answers);
 
         // Set the questions and answers to the views.
         setQandA();
-        TriviaListAdapater adapater = new TriviaListAdapater(getApplicationContext(), R.layout.row_trivia, answers);
+        TriviaListAdapater adapater = new TriviaListAdapater(getApplicationContext(),
+                R.layout.row_trivia, answers);
         answersList.setAdapter(adapater);
 
         // Set listener
@@ -60,16 +61,16 @@ public class Questions extends AppCompatActivity {
 
     // Function to set the question and collect all the possible answers.
     private void setQandA() {
-        questionField.setText(Html.fromHtml(Questions.get(number).getQuestion()).toString());
+        mQuestionField.setText(Html.fromHtml(Questions.get(mNumber).getQuestion()).toString());
         try {
-            array = new JSONArray(Html.fromHtml(Questions.get(number).getIncorrect()).toString());
+            mArray = new JSONArray(Html.fromHtml(Questions.get(mNumber).getIncorrect()).toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        for (int i = 0;i<array.length();i++) {
-            answers.add(array.optString(i));
+        for (int i = 0; i< mArray.length(); i++) {
+            answers.add(mArray.optString(i));
         }
-        answers.add(Html.fromHtml(Questions.get(number).getcorrect_answer()).toString());
+        answers.add(Html.fromHtml(Questions.get(mNumber).getcorrect_answer()).toString());
         Collections.shuffle(answers);
     }
 
@@ -79,12 +80,13 @@ public class Questions extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Object object  = parent.getItemAtPosition(position);
             String Useranswer = object.toString();
-            if (Useranswer.equals(Html.fromHtml(Questions.get(number).getcorrect_answer()).toString())) {
+            if (Useranswer.equals(Html.fromHtml(Questions.get(mNumber).getcorrect_answer())
+                    .toString())) {
                counter();
             }
-            number++;
+            mNumber++;
             // Only start the next question if there is one
-            if (number < amount) {
+            if (mNumber < mAmount) {
                 startNextQuestion();
             } else {
                 startCompelte();
@@ -98,11 +100,11 @@ public class Questions extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("Questions", Questions);
         intentNext.putExtras(bundle);
-        intentNext.putExtra("number", number);
-        intentNext.putExtra("score", score);
-        intentNext.putExtra("difficulty", difficulty);
-        intentNext.putExtra("correct", correct);
-        intentNext.putExtra("amount", amount);
+        intentNext.putExtra("number", mNumber);
+        intentNext.putExtra("score", mScore);
+        intentNext.putExtra("difficulty", mDifficulty);
+        intentNext.putExtra("correct", mCorrect);
+        intentNext.putExtra("amount", mAmount);
         startActivity(intentNext);
         finish();
     }
@@ -110,27 +112,27 @@ public class Questions extends AppCompatActivity {
     // Function to start the last activity.
     private void startCompelte() {
         Intent intentNext = new Intent(Questions.this, Complete.class);
-        intentNext.putExtra("score", score);
-        intentNext.putExtra("amount", amount);
-        intentNext.putExtra("correct", correct);
+        intentNext.putExtra("score", mScore);
+        intentNext.putExtra("amount", mAmount);
+        intentNext.putExtra("correct", mCorrect);
         startActivity(intentNext);
         finish();
     }
 
     // Function to count the score and current question.
     private void counter() {
-        switch (difficulty) {
+        switch (mDifficulty) {
             case "easy":
-                correct++;
-                score++;
+                mCorrect++;
+                mScore++;
                 break;
             case "medium":
-                correct++;
-                score += 2;
+                mCorrect++;
+                mScore += 2;
                 break;
             case "hard":
-                correct++;
-                score += 3;
+                mCorrect++;
+                mScore += 3;
                 break;
         }
     }

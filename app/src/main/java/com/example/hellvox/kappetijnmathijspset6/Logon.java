@@ -37,19 +37,19 @@ public class Logon extends AppCompatActivity {
     // Initialize variables
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    private ProgressBar progressBar;
+    private ProgressBar mProgressBar;
     private ListView topScores;
-    private TextView topUs;
-    private TextView guestText;
-    private Button startTrivia;
-    private LinearLayout header;
-    private Context context;
+    private TextView mTopUs;
+    private TextView mGuestText;
+    private Button mStartTrivia;
+    private LinearLayout mHeader;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logon);
-        context=getApplicationContext();
+        mContext =getApplicationContext();
 
         // Setup the user and database connection.
         mAuth = FirebaseAuth.getInstance();
@@ -60,14 +60,14 @@ public class Logon extends AppCompatActivity {
         assignViews();
 
         // Check for internet to inform user.
-        if (!Functions.isOnline(context)) {
+        if (!Functions.isOnline(mContext)) {
             Snackbar.make(findViewById(android.R.id.content), "No internet connection",
                     Snackbar.LENGTH_LONG).show();
         }
 
         // If user is logged in, setup the activity, else logout and go to login screen.
         if (user != null) {
-            progressBar.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.VISIBLE);
             String userId = user.getUid();
             readUserFromDB(userId);
             getTopScores();
@@ -75,17 +75,17 @@ public class Logon extends AppCompatActivity {
         } else goToHome();
 
         // Set listeners.
-        startTrivia.setOnClickListener(new startListener());
+        mStartTrivia.setOnClickListener(new startListener());
     }
 
     // Function to assign views to the variables.
     private void assignViews() {
-        startTrivia = findViewById(R.id.Start);
-        progressBar = findViewById(R.id.progressBar2);
+        mStartTrivia = findViewById(R.id.Start);
+        mProgressBar = findViewById(R.id.progressBar2);
         topScores = findViewById(R.id.Logon_top);
-        topUs = findViewById(R.id.logon_top);
-        guestText = findViewById(R.id.textView5);
-        header = findViewById(R.id.list_header);
+        mTopUs = findViewById(R.id.logon_top);
+        mGuestText = findViewById(R.id.textView5);
+        mHeader = findViewById(R.id.list_header);
     }
 
     // Function to get the user info from the database and set views accordingly.
@@ -100,9 +100,9 @@ public class Logon extends AppCompatActivity {
 
                 tv.setText(getString(R.string.hello_message)+aUser.username + getString(R.string.Ex));
                 karma.setText(getString(R.string.your_karma)+aUser.karma);
-                topUs.setText(getString(R.string.top_users));
-                header.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.INVISIBLE);
+                mTopUs.setText(getString(R.string.top_users));
+                mHeader.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.INVISIBLE);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -120,11 +120,11 @@ public class Logon extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User aUser = dataSnapshot.getValue(User.class);
                 if (aUser.guest == 1) {
-                    guestText.setText(Html.fromHtml("You are playing as guest, " +
+                    mGuestText.setText(Html.fromHtml("You are playing as guest, " +
                             "karma will not be saved! " +
                             "<font color=#2196F3>Register now!</font>"));
-                    guestText.setVisibility(View.VISIBLE);
-                    guestText.setOnClickListener(new registerListener());
+                    mGuestText.setVisibility(View.VISIBLE);
+                    mGuestText.setOnClickListener(new registerListener());
                 }
             }
             @Override
@@ -161,7 +161,8 @@ public class Logon extends AppCompatActivity {
             //Get user map
             Map singleUser = (Map) entry.getValue();
             if (((Long) singleUser.get("guest")).intValue() == 0) {
-                KarmaList.add(new UserTop((String) singleUser.get("username"), (Long) singleUser.get("karma")));
+                KarmaList.add(new UserTop((String) singleUser.get("username"),
+                        (Long) singleUser.get("karma")));
                 totalKarmaAll = totalKarmaAll +  ((Long) singleUser.get("karma")).intValue();
             }
         }
@@ -174,7 +175,8 @@ public class Logon extends AppCompatActivity {
                 return t1.getKarma().compareTo(userTop.getKarma());
             }
         });
-        ArrayAdapter<UserTop> adapter = new UserTopAdapter(getApplicationContext(), R.layout.row_user, KarmaList);
+        ArrayAdapter<UserTop> adapter = new UserTopAdapter(getApplicationContext(),
+                R.layout.row_user, KarmaList);
         topScores.setAdapter(adapter);
     }
 
@@ -235,7 +237,7 @@ public class Logon extends AppCompatActivity {
         // Handle item selection
         switch (option.getItemId()) {
             case R.id.Logout:
-                Functions.Logout(context, mAuth);
+                Functions.Logout(mContext, mAuth);
                 return true;
             case R.id.Login:
                 FragmentTransaction fragtrans = getSupportFragmentManager().beginTransaction();

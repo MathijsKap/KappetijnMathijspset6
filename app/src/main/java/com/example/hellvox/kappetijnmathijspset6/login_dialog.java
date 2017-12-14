@@ -25,20 +25,20 @@ public class login_dialog extends DialogFragment {
 
     // Initialize variables
     private FirebaseAuth mAuth;
-    private EditText username;
-    private EditText pass;
-    private Button login;
-    private ProgressBar progressBar;
+    private EditText mUsername;
+    private EditText mPass;
+    private Button mLogin;
+    private ProgressBar mProgressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment and assign views
         View view = inflater.inflate(R.layout.fragment_login_dialog, container, false);
-        username = view.findViewById(R.id.Username2);
-        pass = view.findViewById(R.id.Password2);
-        login = view.findViewById(R.id.Login);
-        progressBar = view.findViewById(R.id.progressBar3);
+        mUsername = view.findViewById(R.id.Username2);
+        mPass = view.findViewById(R.id.Password2);
+        mLogin = view.findViewById(R.id.Login);
+        mProgressBar = view.findViewById(R.id.progressBar3);
         mAuth = FirebaseAuth.getInstance();
         return view;
     }
@@ -47,22 +47,22 @@ public class login_dialog extends DialogFragment {
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         // Set login button listener
-        login.setOnClickListener(new LoginListener());
+        mLogin.setOnClickListener(new LoginListener());
     }
 
     // Listener that checks login fields and starts login function
     private class LoginListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            String email = username.getText().toString();
-            String password = pass.getText().toString();
+            String email = mUsername.getText().toString();
+            String password = mPass.getText().toString();
             if (password.length() < 6) {
                 Toast.makeText(getContext(), "Password to short!", Toast.LENGTH_SHORT).show();
             } else if (email.length() < 1) {
                 Toast.makeText(getContext(), "Incorrect email", Toast.LENGTH_SHORT).show();
             }
             else {
-                progressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.VISIBLE);
                 login(email, password);
             }
         }
@@ -77,17 +77,19 @@ public class login_dialog extends DialogFragment {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            progressBar.setVisibility(View.INVISIBLE);
+                            mProgressBar.setVisibility(View.INVISIBLE);
                             //Toast.makeText(getContext(), "Succes!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getActivity(), Logon.class);
                             startActivityForResult(intent, 0);
                             getActivity().finish();
                         } else {
                             // If sign in fails, display a message to the user.
-                            progressBar.setVisibility(View.INVISIBLE);
+                            mProgressBar.setVisibility(View.INVISIBLE);
                             if (!Functions.isOnline(getContext())) {
-                                Toast.makeText(getContext(), "No internet connection", Toast.LENGTH_SHORT).show();
-                            } else Toast.makeText(getContext(), "Incorrect login information, try again", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "No internet connection",
+                                        Toast.LENGTH_SHORT).show();
+                            } else Toast.makeText(getContext(), "Incorrect login " +
+                                    "information, try again", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

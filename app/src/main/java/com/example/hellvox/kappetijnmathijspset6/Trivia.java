@@ -3,26 +3,24 @@ package com.example.hellvox.kappetijnmathijspset6;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONArray;
-
 public class Trivia implements Parcelable {
 
     // Initialize variables
-    public String Question;
-    public String correct_answer;
-    public String Incorrect;
+    public String question;
+    public String correctAnswer;
+    public String incorrect;
 
     // Construct the food object.
     public Trivia(String Question, String correct_answer, String Incorrect) {
-        this.Question = Question;
-        this.correct_answer = correct_answer;
-        this.Incorrect = Incorrect;
+        this.question = Question;
+        this.correctAnswer = correct_answer;
+        this.incorrect = Incorrect;
     }
 
     protected Trivia(Parcel in) {
-        Question = in.readString();
-        correct_answer = in.readString();
-        Incorrect = in.readString();
+        question = in.readString();
+        correctAnswer = in.readString();
+        incorrect = in.readString();
     }
 
     public static final Creator<Trivia> CREATOR = new Creator<Trivia>() {
@@ -38,27 +36,27 @@ public class Trivia implements Parcelable {
     };
 
     public String getQuestion() {
-        return Question;
+        return question;
     }
 
     public void setQuestion(String Question) {
-        this.Question = Question;
+        this.question = Question;
     }
 
     public String getcorrect_answer() {
-        return correct_answer;
+        return correctAnswer;
     }
 
     public void setcorrect_answer(String correct_answer) {
-        this.correct_answer = correct_answer;
+        this.correctAnswer = correct_answer;
     }
 
     public String getIncorrect() {
-        return Incorrect;
+        return incorrect;
     }
 
     public void setIncorrect(String Incorrect) {
-        this.Incorrect = Incorrect;
+        this.incorrect = Incorrect;
     }
 
     @Override
@@ -68,8 +66,8 @@ public class Trivia implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(Question);
-        parcel.writeString(correct_answer);
-        parcel.writeString(Incorrect);
+        parcel.writeString(question);
+        parcel.writeString(correctAnswer);
+        parcel.writeString(incorrect);
     }
 }
