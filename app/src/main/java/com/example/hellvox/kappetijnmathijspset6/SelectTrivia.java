@@ -134,6 +134,7 @@ public class SelectTrivia extends AppCompatActivity {
         MySingleton.getInstance(context).addToRequestQueue(jsObjRequest);
     }
 
+    // Function to go to the questions activity.
     private void goToQuestions(int amount) {
         Intent intent = new Intent(SelectTrivia.this, Questions.class);
         Bundle bundle = new Bundle();
@@ -193,6 +194,11 @@ public class SelectTrivia extends AppCompatActivity {
                             .toString());
             Questions.add(trivia);
         }
+        goToOfflineQ();
+    }
+
+    // Function to go to the questions activity.
+    private void goToOfflineQ() {
         Intent intent = new Intent(SelectTrivia.this, Questions.class);
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("Questions", Questions);
