@@ -23,7 +23,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".reglog" />
+        <activity android:name=".RegLog" />
         <activity android:name=".SelectTrivia" />
         <activity android:name=".Questions" />
         <activity android:name=".Complete" />

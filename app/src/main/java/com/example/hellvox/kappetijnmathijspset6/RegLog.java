@@ -28,7 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Random;
 
-public class reglog extends AppCompatActivity {
+public class RegLog extends AppCompatActivity {
 
     // Initialize variables
     private FirebaseAuth mAuth;
@@ -133,7 +133,7 @@ public class reglog extends AppCompatActivity {
                             mDatabase.child("users").child(userId).child("guest").setValue(guest);
                             Toast.makeText(getApplicationContext(), "Have fun!",
                                     Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(reglog.this, Logon.class);
+                            Intent intent = new Intent(RegLog.this, Logon.class);
                             startActivity(intent);
                             finish();
                         } else {
@@ -142,7 +142,8 @@ public class reglog extends AppCompatActivity {
                             if (!Functions.isOnline(mContext)) {
                                 Toast.makeText(mContext, "No internet connection",
                                         Toast.LENGTH_SHORT).show();
-                            } else Toast.makeText(mContext, "Email already used or try again.",
+                            } else Toast.makeText(mContext,
+                                    "Email already used/invalid or try again.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -155,7 +156,7 @@ public class reglog extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            login_dialog fragment = new login_dialog();
+            LoginDialog fragment = new LoginDialog();
             fragment.show(ft, "dialog");
         }
     }
@@ -182,12 +183,12 @@ public class reglog extends AppCompatActivity {
                 return true;
             case R.id.Login:
                 FragmentTransaction Transaction = getSupportFragmentManager().beginTransaction();
-                login_dialog fragment = new login_dialog();
+                LoginDialog fragment = new LoginDialog();
                 fragment.show(Transaction, "dialog");
                 return true;
             case R.id.Rules:
                 FragmentTransaction fragtransRules = getSupportFragmentManager().beginTransaction();
-                info_dialog infofragment = new info_dialog();
+                InfoDialog infofragment = new InfoDialog();
                 infofragment.show(fragtransRules, "info");
                 return true;
             default:

@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class login_dialog extends DialogFragment {
+public class LoginDialog extends DialogFragment {
 
     // Initialize variables
     private FirebaseAuth mAuth;

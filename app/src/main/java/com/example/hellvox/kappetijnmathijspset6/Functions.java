@@ -15,7 +15,7 @@ public class Functions {
     public static void Logout(Context context, FirebaseAuth mAuth) {
         mAuth.signOut();
         Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(context, reglog.class);
+        Intent intent = new Intent(context, RegLog.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }

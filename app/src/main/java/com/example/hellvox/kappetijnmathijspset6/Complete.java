@@ -149,12 +149,12 @@ public class Complete extends AppCompatActivity {
                 return true;
             case R.id.Login:
                 FragmentTransaction fragt = getSupportFragmentManager().beginTransaction();
-                login_dialog fragment = new login_dialog();
+                LoginDialog fragment = new LoginDialog();
                 fragment.show(fragt, "dialog");
                 return true;
             case R.id.Rules:
                 FragmentTransaction fragtransTwo = getSupportFragmentManager().beginTransaction();
-                info_dialog infofragment = new info_dialog();
+                InfoDialog infofragment = new InfoDialog();
                 infofragment.show(fragtransTwo, "info");
                 return true;
             default:

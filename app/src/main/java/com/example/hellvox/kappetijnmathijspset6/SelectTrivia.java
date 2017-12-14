@@ -40,7 +40,7 @@ public class SelectTrivia extends AppCompatActivity {
     // Initialize variables
     private FirebaseAuth mAuth;
     private JSONObject mObjectArray;
-    private ArrayList<Trivia> Questions = new ArrayList<>();
+    private ArrayList<Trivia> mQuestions = new ArrayList<>();
     private Button mNext;
     private Spinner mCategorySpinner;
     private Spinner mDifficultySpinner;
@@ -120,9 +120,10 @@ public class SelectTrivia extends AppCompatActivity {
                         saveToSharedPrefs(array);
                         for(int i=0; i<array.length(); i++) {
                             mObjectArray = array.optJSONObject(i);
-                            Questions.add(new Trivia(mObjectArray.optString("question"),
+                            mQuestions.add(new Trivia(mObjectArray.optString("question"),
                                     mObjectArray.optString("correct_answer"),
-                                    mObjectArray.optJSONArray("incorrect_answers").toString()));
+                                    mObjectArray.optJSONArray("incorrect_answers")
+                                            .toString()));
                         }
                         goToQuestions(amount);
 
@@ -138,7 +139,7 @@ public class SelectTrivia extends AppCompatActivity {
     private void goToQuestions(int amount) {
         Intent intent = new Intent(SelectTrivia.this, Questions.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("Questions", Questions);
+        bundle.putParcelableArrayList("Questions", mQuestions);
         intent.putExtras(bundle);
         intent.putExtra("amount", amount);
         intent.putExtra("difficulty", mDifficulty);
@@ -148,9 +149,11 @@ public class SelectTrivia extends AppCompatActivity {
 
     private void onError() {
         if (!Functions.isOnline(mContext)) {
-            Snackbar.make(findViewById(android.R.id.content), "No internet connection", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(android.R.id.content), "No internet connection",
+                    Snackbar.LENGTH_LONG).show();
         } else {
-            Toast.makeText(mContext, "Something went wrong, try again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Something went wrong, try again", Toast.LENGTH_SHORT)
+                    .show();
         }
         mProgressBar.setVisibility(View.INVISIBLE);
         mConstraintLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -171,6 +174,7 @@ public class SelectTrivia extends AppCompatActivity {
         }
     }
 
+    // Function to save the questions array on the device in case of no internet available.
     private void saveToSharedPrefs(JSONArray ObjectArray) {
         SharedPreferences prefs = this.getSharedPreferences("old_questions", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -178,6 +182,7 @@ public class SelectTrivia extends AppCompatActivity {
         editor.apply();
     }
 
+    // Function to get the array from the device in case of no internet.
     private void loadFromSharedPrefs() {
         SharedPreferences prefs = this.getSharedPreferences("old_questions", MODE_PRIVATE);
         String s = prefs.getString("array",  null);
@@ -192,7 +197,7 @@ public class SelectTrivia extends AppCompatActivity {
                     Array.optString("correct_answer"),
                     Array.optJSONArray("incorrect_answers")
                             .toString());
-            Questions.add(trivia);
+            mQuestions.add(trivia);
         }
         goToOfflineQ();
     }
@@ -201,9 +206,9 @@ public class SelectTrivia extends AppCompatActivity {
     private void goToOfflineQ() {
         Intent intent = new Intent(SelectTrivia.this, Questions.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("Questions", Questions);
+        bundle.putParcelableArrayList("Questions", mQuestions);
         intent.putExtras(bundle);
-        intent.putExtra("amount", Questions.size());
+        intent.putExtra("amount", mQuestions.size());
         startActivity(intent);
         finish();
     }
@@ -281,12 +286,12 @@ public class SelectTrivia extends AppCompatActivity {
                 return true;
             case R.id.Login:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                login_dialog fragment = new login_dialog();
+                LoginDialog fragment = new LoginDialog();
                 fragment.show(ft, "dialog");
                 return true;
             case R.id.Rules:
                 FragmentTransaction fragtrans2 = getSupportFragmentManager().beginTransaction();
-                info_dialog infofragment = new info_dialog();
+                InfoDialog infofragment = new InfoDialog();
                 infofragment.show(fragtrans2, "info");
                 return true;
             default:

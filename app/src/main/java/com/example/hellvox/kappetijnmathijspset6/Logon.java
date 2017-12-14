@@ -182,7 +182,7 @@ public class Logon extends AppCompatActivity {
 
     // Function to got to the register page.
     private void goToHome() {
-        startActivity(new Intent(Logon.this, reglog.class));
+        startActivity(new Intent(Logon.this, RegLog.class));
         finish();
     }
 
@@ -241,12 +241,12 @@ public class Logon extends AppCompatActivity {
                 return true;
             case R.id.Login:
                 FragmentTransaction fragtrans = getSupportFragmentManager().beginTransaction();
-                login_dialog fragment = new login_dialog();
+                LoginDialog fragment = new LoginDialog();
                 fragment.show(fragtrans, "dialog");
                 return true;
             case R.id.Rules:
                 FragmentTransaction fragRules = getSupportFragmentManager().beginTransaction();
-                info_dialog infofragment = new info_dialog();
+                InfoDialog infofragment = new InfoDialog();
                 infofragment.show(fragRules, "info");
                 return true;
             default:

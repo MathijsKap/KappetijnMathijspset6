@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.hellvox.kappetijnmathijspset6.reglog"
+    tools:context="com.example.hellvox.kappetijnmathijspset6.RegLog"
     app:layout_constraintGuide_percent="0.5">
 
     <android.support.constraint.ConstraintLayout

@@ -20,8 +20,8 @@ import java.util.Collections;
 public class Questions extends AppCompatActivity {
 
     // Initialize variables
-    private ArrayList<Trivia> Questions = new ArrayList<>();
-    private ArrayList<String> answers = new ArrayList<>();
+    private ArrayList<Trivia> mQuestions = new ArrayList<>();
+    private ArrayList<String> mAnswers = new ArrayList<>();
     private JSONArray mArray;
     private TextView mQuestionField;
     private int mNumber;
@@ -37,7 +37,7 @@ public class Questions extends AppCompatActivity {
 
         // Assign all the variables from the previous activity.
         Intent intent = getIntent();
-        Questions = intent.getExtras().getParcelableArrayList("Questions");
+        mQuestions = intent.getExtras().getParcelableArrayList("Questions");
         mNumber = intent.getIntExtra("number", 0);
         mScore = intent.getIntExtra("score", 0);
         mAmount = intent.getIntExtra("amount", 5);
@@ -52,7 +52,7 @@ public class Questions extends AppCompatActivity {
         // Set the questions and answers to the views.
         setQandA();
         TriviaListAdapater adapater = new TriviaListAdapater(getApplicationContext(),
-                R.layout.row_trivia, answers);
+                R.layout.row_trivia, mAnswers);
         answersList.setAdapter(adapater);
 
         // Set listener
@@ -61,17 +61,17 @@ public class Questions extends AppCompatActivity {
 
     // Function to set the question and collect all the possible answers.
     private void setQandA() {
-        mQuestionField.setText(Html.fromHtml(Questions.get(mNumber).getQuestion()).toString());
+        mQuestionField.setText(Html.fromHtml(mQuestions.get(mNumber).getQuestion()).toString());
         try {
-            mArray = new JSONArray(Html.fromHtml(Questions.get(mNumber).getIncorrect()).toString());
+            mArray = new JSONArray(Html.fromHtml(mQuestions.get(mNumber).getIncorrect()).toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         for (int i = 0; i< mArray.length(); i++) {
-            answers.add(mArray.optString(i));
+            mAnswers.add(mArray.optString(i));
         }
-        answers.add(Html.fromHtml(Questions.get(mNumber).getcorrect_answer()).toString());
-        Collections.shuffle(answers);
+        mAnswers.add(Html.fromHtml(mQuestions.get(mNumber).getcorrect_answer()).toString());
+        Collections.shuffle(mAnswers);
     }
 
     // Listener to get the users Answer and get all the variables for the next question.
@@ -80,7 +80,7 @@ public class Questions extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Object object  = parent.getItemAtPosition(position);
             String Useranswer = object.toString();
-            if (Useranswer.equals(Html.fromHtml(Questions.get(mNumber).getcorrect_answer())
+            if (Useranswer.equals(Html.fromHtml(mQuestions.get(mNumber).getcorrect_answer())
                     .toString())) {
                counter();
             }
@@ -98,7 +98,7 @@ public class Questions extends AppCompatActivity {
     private void startNextQuestion() {
         Intent intentNext = new Intent(Questions.this, Questions.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("Questions", Questions);
+        bundle.putParcelableArrayList("Questions", mQuestions);
         intentNext.putExtras(bundle);
         intentNext.putExtra("number", mNumber);
         intentNext.putExtra("score", mScore);
