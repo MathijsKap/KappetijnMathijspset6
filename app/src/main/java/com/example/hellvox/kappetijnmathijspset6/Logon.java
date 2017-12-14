@@ -58,12 +58,7 @@ public class Logon extends AppCompatActivity {
         user = mAuth.getCurrentUser();
 
         // Assign the views to the variables.
-        startTrivia = findViewById(R.id.Start);
-        progressBar = findViewById(R.id.progressBar2);
-        topScores = findViewById(R.id.Logon_top);
-        topUs = findViewById(R.id.logon_top);
-        guestText = findViewById(R.id.textView5);
-        header = findViewById(R.id.list_header);
+        assignViews();
 
         // Check for internet to inform user.
         if (!Functions.isOnline(context)) {
@@ -82,6 +77,16 @@ public class Logon extends AppCompatActivity {
 
         // Set listeners.
         startTrivia.setOnClickListener(new startListener());
+    }
+
+    // Function to assign views to the variables.
+    private void assignViews() {
+        startTrivia = findViewById(R.id.Start);
+        progressBar = findViewById(R.id.progressBar2);
+        topScores = findViewById(R.id.Logon_top);
+        topUs = findViewById(R.id.logon_top);
+        guestText = findViewById(R.id.textView5);
+        header = findViewById(R.id.list_header);
     }
 
     // Function to get the user info from the database and set views accordingly.
