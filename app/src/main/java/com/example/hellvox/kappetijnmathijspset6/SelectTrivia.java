@@ -28,7 +28,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,7 +48,6 @@ public class SelectTrivia extends AppCompatActivity {
     ProgressBar progressBar;
     ConstraintLayout constraintLayout;
     int category;
-    int counter;
     String difficulty;
     Context context;
 
@@ -63,18 +61,22 @@ public class SelectTrivia extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // Assign the views to the variables.
-        categorySpinner = findViewById(R.id.Category);
-        difficultySpinner = findViewById(R.id.Difficulty);
-        editTextAmount = findViewById(R.id.NumberAmount);
-        progressBar = findViewById(R.id.progressBar4);
-        constraintLayout = findViewById(R.id.select_layout);
-        next = findViewById(R.id.next);
+        assignViews();
         addItemsOnSpinner();
 
         // Set listeners.
         categorySpinner.setOnItemSelectedListener(new categorySpinnerList());
         difficultySpinner.setOnItemSelectedListener(new difficultySpinnerList());
         next.setOnClickListener(new nextListener());
+    }
+
+    private void assignViews() {
+        categorySpinner = findViewById(R.id.Category);
+        difficultySpinner = findViewById(R.id.Difficulty);
+        editTextAmount = findViewById(R.id.NumberAmount);
+        progressBar = findViewById(R.id.progressBar4);
+        constraintLayout = findViewById(R.id.select_layout);
+        next = findViewById(R.id.next);
     }
 
     // Function to add items on the Spinner objects.
