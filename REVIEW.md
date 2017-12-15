@@ -10,7 +10,7 @@ Next time:
 
 Use the same consistency as this time.
 
-
+ 
 
 Aspect: headers
 
@@ -24,7 +24,7 @@ Next time:
 
 When creating a file copy the header from the previous created file and adjust this to the new file.
 
-
+ 
 
 
 Aspect: comments
@@ -41,7 +41,7 @@ Next time:
 
 Use a little more comments in methods.
 
-
+ 
 
 
 Aspect: layout
@@ -56,7 +56,7 @@ Next time:
 
 Check your code one time after cleaning everything.
 
-
+ 
  
 Aspect: formatting
 
@@ -70,7 +70,7 @@ Next time:
 
 Use the same formatting as this time.
 
-
+ 
 
 
 Aspect: flow
@@ -86,7 +86,7 @@ Next time:
 Use the same flow as this time.
 
 
-
+ 
 
 Aspect: idiom
 
@@ -100,7 +100,7 @@ Next time:
 
 Use the same idiom as this time.
 
-
+ 
 
 
 Aspect: expressions
@@ -115,7 +115,7 @@ Next time:
 
 Use the same expressions as this time.
 
-
+ 
 
 Aspect: decomposition
 
@@ -131,7 +131,7 @@ Next time:
 
 Try to break very long functions apart.
 
-
+ 
 
 
 Aspect: modularization
