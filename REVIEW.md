@@ -11,6 +11,7 @@ Next time:
 Use the same consistency as this time.
 
 
+
 Aspect: headers
 
 Headers are missing.
@@ -22,6 +23,7 @@ Logon.java
 Next time:
 
 When creating a file copy the header from the previous created file and adjust this to the new file.
+
 
 
 
@@ -41,6 +43,7 @@ Use a little more comments in methods.
 
 
 
+
 Aspect: layout
 
 Looking good! Maybe sort method and classes within a class
@@ -55,6 +58,7 @@ Check your code one time after cleaning everything.
 
  
  
+ 
 Aspect: formatting
 
 Formatting looks good and consistent.
@@ -66,6 +70,7 @@ Every file
 Next time:
 
 Use the same formatting as this time.
+
 
 
 
@@ -83,6 +88,7 @@ Use the same flow as this time.
 
 
 
+
 Aspect: idiom
 
 Looks good.
@@ -94,6 +100,7 @@ Every file
 Next time:
 
 Use the same idiom as this time.
+
 
 
 
@@ -110,6 +117,7 @@ Next time:
 Use the same expressions as this time.
 
 
+
  
 Aspect: decomposition
 
@@ -124,6 +132,7 @@ Logon.java
 Next time:
 
 Try to break very long functions apart.
+
 
 
 
