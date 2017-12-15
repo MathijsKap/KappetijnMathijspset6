@@ -118,7 +118,6 @@ Use the same expressions as this time.
 
 
 
- 
 Aspect: decomposition
 
 Looking mostly good, but there are some long functions, which can be taken apart.
