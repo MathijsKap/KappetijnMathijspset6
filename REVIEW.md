@@ -1,9 +1,15 @@
 Aspect: names
+
 All names in the program use a consistent vocabulary
+
 Example: 
+
 Every file
+
 Next time:
+
 Use the same consistency as this time.
+
 
 Aspect: headers
 Headers are missing.
