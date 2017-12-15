@@ -9,8 +9,7 @@ Every file
 Next time:
 
 Use the same consistency as this time.
-
- 
+---------------------------------------
 
 Aspect: headers
 
@@ -23,8 +22,7 @@ Logon.java
 Next time:
 
 When creating a file copy the header from the previous created file and adjust this to the new file.
-
- 
+---------------------------------------
  
 
 Aspect: comments
@@ -40,7 +38,7 @@ SelectTrivia.java
 Next time:
 
 Use a little more comments in methods.
-
+---------------------------------------
  
 
 
@@ -55,7 +53,7 @@ SelectTrivia.java
 Next time:
 
 Check your code one time after cleaning everything.
-
+---------------------------------------
  
  
 Aspect: formatting
@@ -69,7 +67,7 @@ Every file
 Next time:
 
 Use the same formatting as this time.
-
+---------------------------------------
  
 
 
@@ -84,7 +82,7 @@ Every file
 Next time:
 
 Use the same flow as this time.
-
+---------------------------------------
 
  
 
@@ -99,7 +97,7 @@ Every file
 Next time:
 
 Use the same idiom as this time.
-
+---------------------------------------
  
 
 
@@ -114,7 +112,7 @@ Every file
 Next time:
 
 Use the same expressions as this time.
-
+---------------------------------------
  
 
 Aspect: decomposition
@@ -130,7 +128,7 @@ Logon.java
 Next time:
 
 Try to break very long functions apart.
-
+---------------------------------------
  
 
 
